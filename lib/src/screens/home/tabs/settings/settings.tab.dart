@@ -16,14 +16,21 @@ class _SettingsTabState extends State<SettingsTab> {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
+    return ListView.separated(
       itemCount: data.length,
+      separatorBuilder: (BuildContext context, int index) {
+        return const Divider();
+      },
       itemBuilder: (BuildContext context, int index) {
         final entry = data.entries.toList()[index];
         return ListTile(
           title: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [Text(entry.key), Text(entry.value.toString())]),
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(entry.key),
+              Text(entry.value.toString()),
+            ],
+          ),
         );
       },
     );

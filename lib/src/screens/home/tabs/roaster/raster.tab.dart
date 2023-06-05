@@ -56,7 +56,7 @@ class _RoasterTabState extends State<RoasterTab> {
             onPressed: () {
               _showSnackBar(context, "Operation started");
               // Data from API
-              Timer(const Duration(seconds: 10), () {
+              Timer(Duration(seconds: bean['minutes']), () {
                 _showSnackBar(context, "Operation done. Your $type is ready");
               });
               Navigator.pop(context);
@@ -70,72 +70,52 @@ class _RoasterTabState extends State<RoasterTab> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        GestureDetector(
-          child: const Card(
-            elevation: 5,
-            child: SizedBox(
-              child: Padding(
-                padding: EdgeInsets.all(20.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Robusta',
-                      style: TextStyle(
-                        fontSize: 30,
-                        fontWeight: FontWeight.w500,
+    return ListView.builder(
+      itemCount: data.length,
+      itemBuilder: (BuildContext context, int index) {
+        final entry = data.entries.toList()[index];
+
+        String name = entry.key[0].toUpperCase() + entry.key.substring(1);
+
+        return ListTile(
+          title: GestureDetector(
+            child: Card(
+              elevation: 5,
+              child: SizedBox(
+                child: Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        name,
+                        style: const TextStyle(
+                          fontSize: 30,
+                          fontWeight: FontWeight.w500,
+                        ),
                       ),
-                    ),
-                    SizedBox(height: 10),
-                    Text(
-                      'Minutes: 10',
-                      style: TextStyle(
-                        fontSize: 15,
+                      const SizedBox(height: 10),
+                      Text(
+                        "Minutes: ${entry.value['minutes']}",
+                        style: const TextStyle(
+                          fontSize: 15,
+                        ),
                       ),
-                    ),
-                  ],
+                      Text(
+                        "Degress: ${entry.value['degree']}°C",
+                        style: const TextStyle(
+                          fontSize: 15,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
+            onTap: () => roast(entry.key),
           ),
-          onTap: () => roast("Robusta"),
-        ),
-        const SizedBox(height: 10),
-        GestureDetector(
-          child: const Card(
-            elevation: 5,
-            child: SizedBox(
-              child: Padding(
-                padding: EdgeInsets.all(20.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Arabica',
-                      style: TextStyle(
-                        fontSize: 30,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                    SizedBox(height: 10),
-                    Text(
-                      'Minutes: 10',
-                      style: TextStyle(
-                        fontSize: 15,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
-          onTap: () => roast("Robusta"),
-        ),
-      ],
+        );
+      },
     );
   }
 }
