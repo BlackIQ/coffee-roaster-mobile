@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:test/src/services/state/state.service.dart';
 
 class AuthScreen extends StatefulWidget {
   const AuthScreen({super.key});
@@ -19,10 +21,20 @@ class _AuthScreenState extends State<AuthScreen> {
         title: Text('Username is ${_username.text}'),
         content: const Text('Do you confirm your username?'),
         actions: [
-          TextButton(onPressed: () => {}, child: const Text("Ok")),
           TextButton(
-            onPressed: () => Navigator.pop(context),
-            style: TextButton.styleFrom(foregroundColor: Colors.red),
+              onPressed: () {
+                Provider.of<AppState>(context, listen: false)
+                    .setAuthenticated(true);
+                Navigator.pop(context);
+              },
+              child: const Text("Ok")),
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            style: TextButton.styleFrom(
+              foregroundColor: Theme.of(context).colorScheme.error,
+            ),
             child: const Text("No"),
           )
         ],
@@ -34,6 +46,7 @@ class _AuthScreenState extends State<AuthScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: const Text("Login to your account"),
       ),
       body: Padding(
@@ -64,6 +77,9 @@ class _AuthScreenState extends State<AuthScreen> {
               height: 50,
               child: ElevatedButton(
                 onPressed: hi,
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+                ),
                 child: const Text("Login"),
               ),
             )

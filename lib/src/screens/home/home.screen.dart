@@ -1,6 +1,10 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:test/src/screens/home/tabs/roaster/raster.tab.dart';
 import 'package:test/src/screens/home/tabs/settings/settings.tab.dart';
+import 'package:test/src/services/state/state.service.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -26,6 +30,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: const Text("Home"),
         elevation: 0,
       ),
@@ -46,7 +51,14 @@ class _HomeScreenState extends State<HomeScreen> {
             label: 'Settings',
           ),
         ],
+        currentIndex: _selectedIndex,
         onTap: _onItemTapped,
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Provider.of<AppState>(context, listen: false).setAuthenticated(false);
+        },
+        child: const Icon(Icons.logout),
       ),
     );
   }
