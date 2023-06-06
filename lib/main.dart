@@ -12,6 +12,8 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // String theme = Provider.of<AppState>(context, listen: true).getTheme;
+
     return ChangeNotifierProvider<AppState>(
       create: (context) => AppState(),
       child: MaterialApp(
@@ -20,7 +22,6 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(
             seedColor: Colors.brown,
-            background: Colors.brown[50],
           ),
           useMaterial3: true,
         ),

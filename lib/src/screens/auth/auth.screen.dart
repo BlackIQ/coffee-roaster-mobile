@@ -10,36 +10,28 @@ class AuthScreen extends StatefulWidget {
 }
 
 class _AuthScreenState extends State<AuthScreen> {
+  Future<void> _showSnackBar(BuildContext context, String message) async {
+    final snackBar = SnackBar(
+      content: Text(message),
+      duration: const Duration(seconds: 1),
+    );
+
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
+
   final TextEditingController _username = TextEditingController();
   final TextEditingController _password = TextEditingController();
 
-  void hi() {
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (_) => AlertDialog(
-        title: Text('Username is ${_username.text}'),
-        content: const Text('Do you confirm your username?'),
-        actions: [
-          TextButton(
-              onPressed: () {
-                Provider.of<AppState>(context, listen: false)
-                    .setAuthenticated(true);
-                Navigator.pop(context);
-              },
-              child: const Text("Ok")),
-          TextButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            style: TextButton.styleFrom(
-              foregroundColor: Theme.of(context).colorScheme.error,
-            ),
-            child: const Text("No"),
-          )
-        ],
-      ),
-    );
+  void login() {
+    if (_username.text == 'amir') {
+      if (_password.text == '200300') {
+        Provider.of<AppState>(context, listen: false).setAuthenticated(true);
+      } else {
+        _showSnackBar(context, 'Wrong password');
+      }
+    } else {
+      _showSnackBar(context, 'User not found');
+    }
   }
 
   @override
@@ -76,7 +68,7 @@ class _AuthScreenState extends State<AuthScreen> {
             SizedBox(
               height: 50,
               child: ElevatedButton(
-                onPressed: hi,
+                onPressed: login,
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Theme.of(context).colorScheme.inversePrimary,
                 ),

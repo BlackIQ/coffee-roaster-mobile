@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:test/src/screens/home/tabs/roaster/raster.tab.dart';
@@ -29,10 +27,21 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    String theme = Provider.of<AppState>(context, listen: true).getTheme;
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: const Text("Home"),
+        title: const Text('Home'),
+        actions: [
+          IconButton(
+            icon: Icon(theme == 'light' ? Icons.dark_mode : Icons.light_mode),
+            onPressed: () {
+              Provider.of<AppState>(context, listen: false)
+                  .setTheme(theme == 'light' ? 'dark' : 'light');
+            },
+          ),
+        ],
         elevation: 0,
       ),
       body: _widgetOptions.elementAt(_selectedIndex),
