@@ -1,5 +1,5 @@
 import 'package:sqflite/sqflite.dart';
-import 'package:path/path.dart';
+import 'package:path/path.dart'; // ignore: depend_on_referenced_packages
 
 class DBServices {
   static Database? _database;
