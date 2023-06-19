@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:test/src/screens/landing.dart';
 import 'package:test/src/services/state/state.service.dart';
@@ -20,6 +21,7 @@ class MyApp extends StatelessWidget {
         title: 'Test Application',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
+          textTheme: GoogleFonts.vazirmatnTextTheme(),
           colorScheme: ColorScheme.fromSeed(
             seedColor: Colors.brown,
           ),

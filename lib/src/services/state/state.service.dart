@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class AppState extends ChangeNotifier {
   // Authentication
-  bool _authenticated = false;
+  bool _authenticated = true;
   bool get getAuthenticated => _authenticated;
   void setAuthenticated(bool authenticated) {
     _authenticated = authenticated;
