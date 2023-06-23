@@ -1,3 +1,4 @@
+import 'package:flutter_blue/flutter_blue.dart';
 import 'package:flutter/material.dart';
 
 class AppState extends ChangeNotifier {
@@ -22,6 +23,14 @@ class AppState extends ChangeNotifier {
   String get getTheme => _theme;
   void setTheme(String theme) {
     _theme = theme;
+    notifyListeners();
+  }
+
+  // Bluetooth device
+  BluetoothDevice? _ble;
+  BluetoothDevice? get getBle => _ble;
+  void setBle(BluetoothDevice ble) {
+    _ble = ble;
     notifyListeners();
   }
 }

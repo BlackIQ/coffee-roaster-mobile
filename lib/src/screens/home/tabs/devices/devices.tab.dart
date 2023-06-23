@@ -1,6 +1,7 @@
 import 'dart:async';
+import 'dart:convert';
 
-import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
+import 'package:flutter_blue/flutter_blue.dart';
 import 'package:flutter/material.dart';
 
 class DeviceTab extends StatefulWidget {
@@ -20,7 +21,13 @@ class _DeviceTabState extends State<DeviceTab> {
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 
-  List<BluetoothDevice> _devices = [];
+  FlutterBlue flutterBlue = FlutterBlue.instance;
+
+  late StreamSubscription scanSubscription;
+
+  BluetoothDevice? connectedDevice;
+
+  List<ScanResult> scanResults = [];
 
   @override
   void initState() {
@@ -28,85 +35,126 @@ class _DeviceTabState extends State<DeviceTab> {
     _startScan();
   }
 
-  Future<void> _startScan() async {
+  void _startScan() {
     try {
-      FlutterBluetoothSerial.instance.startDiscovery().listen((device) {
-        print(device);
-        // setState(() {
-        //   _devices.add(device);
-        // });
+      flutterBlue.startScan(timeout: const Duration(seconds: 4));
+
+      scanSubscription = flutterBlue.scanResults.listen((results) {
+        setState(() {
+          scanResults = results;
+        });
       });
-    } catch (e) {
-      _showSnackBar(context, "Fuck");
-      print('I got error!');
+    } catch (error) {
+      _showSnackBar(context, "I have error");
     }
   }
 
-  Map data = {
-    'robusta': {
-      'minutes': 8,
-      'degree': 200,
-    },
-    'arabica': {
-      'minutes': 10,
-      'degree': 180,
-    },
-  };
+  final TextEditingController _message = TextEditingController();
 
-  List devices = ["A", "B", "C"];
-
-  void roast(type) {
-    Map bean = data[type.toString().toLowerCase()];
-
+  void write() {
     showDialog(
       context: context,
       barrierDismissible: false,
       builder: (_) => AlertDialog(
-        title: Text('Roasting $type'),
-        content: Text(
-          "Do you confirm you want to roast your $type for ${bean['minutes']} minutes and ${bean['degree']}°C?",
+        title: const Text('Communicate'),
+        content: TextField(
+          controller: _message,
+          decoration: const InputDecoration(hintText: "Enter your text"),
         ),
         actions: [
           TextButton(
-            onPressed: () {
-              _showSnackBar(context, "Operation canceled");
-              Navigator.pop(context);
-            },
+            onPressed: () => Navigator.pop(context),
             style: TextButton.styleFrom(
               foregroundColor: Theme.of(context).colorScheme.error,
             ),
-            child: const Text("Maybe later"),
+            child: const Text("Close"),
           ),
           TextButton(
-            onPressed: () {
-              _showSnackBar(context, "Operation started");
-              // Data from API
-              Timer(Duration(seconds: bean['minutes']), () {
-                _showSnackBar(context, "Operation done. Your $type is ready");
-              });
-              Navigator.pop(context);
+            onPressed: () async {
+              List<BluetoothService>? services =
+                  await connectedDevice?.discoverServices();
+
+              services?.first.characteristics.first
+                  .write(stringToHex(_message.text));
+
+              // for (var service in services!) {
+              //   var characteristics = service.characteristics;
+
+              //   await characteristics[0].write(stringToHex(_message.text));
+              // }
             },
-            child: const Text("Yes"),
+            child: const Text("Send"),
           ),
         ],
       ),
     );
   }
 
+  List<int> stringToHex(String input) {
+    List<int> bytes = utf8.encode(input);
+
+    return bytes;
+  }
+
+  @override
+  void dispose() {
+    flutterBlue.stopScan();
+    scanSubscription.cancel();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return ListView.separated(
-      itemCount: devices.length,
-      separatorBuilder: (context, index) => const Divider(),
-      itemBuilder: (BuildContext context, int index) {
-        return ListTile(
-          title: Text(devices[index]),
-          trailing: TextButton(
-            onPressed: () => {},
-            child: const Text("Connect"),
-          ),
-        );
-      },
-    );
+    return scanResults.isNotEmpty
+        ? ListView.separated(
+            itemCount: scanResults.length,
+            separatorBuilder: (context, index) => const Divider(),
+            itemBuilder: (BuildContext context, int index) {
+              final result = scanResults[index];
+              final device = result.device;
+
+              return ListTile(
+                title: Text(device.name),
+                subtitle: Text(device.id.toString()),
+                onTap: () {
+                  if (connectedDevice?.id == device.id) {
+                    write();
+                  } else {
+                    _showSnackBar(context, "First, connect to device");
+                  }
+                },
+                trailing: TextButton(
+                  onPressed: () async {
+                    if (connectedDevice != null &&
+                        connectedDevice!.id == device.id) {
+                      await connectedDevice!.disconnect();
+
+                      setState(() {
+                        connectedDevice = null;
+                      });
+
+                      _showSnackBar(
+                          context, "Disconnected from ${device.name}");
+                    } else {
+                      await device.connect();
+
+                      setState(() {
+                        connectedDevice = device;
+                      });
+
+                      _showSnackBar(
+                          context, "Conencted to from ${device.name}");
+                    }
+                  },
+                  child: Text(
+                    connectedDevice?.id == device.id ? 'Disconnect' : 'Connect',
+                  ),
+                ),
+              );
+            },
+          )
+        : const Center(
+            child: CircularProgressIndicator(),
+          );
   }
 }
