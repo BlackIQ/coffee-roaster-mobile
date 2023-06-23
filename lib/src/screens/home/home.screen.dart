@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:test/src/screens/home/tabs/devices/devices.tab.dart';
 import 'package:test/src/screens/home/tabs/roaster/raster.tab.dart';
 import 'package:test/src/screens/home/tabs/settings/settings.tab.dart';
 import 'package:test/src/services/state/state.service.dart';
@@ -16,6 +17,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   static const List<Widget> _widgetOptions = <Widget>[
     RoasterTab(),
+    DeviceTab(),
     SettingsTab(),
   ];
 
@@ -50,6 +52,10 @@ class _HomeScreenState extends State<HomeScreen> {
           BottomNavigationBarItem(
             icon: Icon(Icons.coffee_maker),
             label: 'Roaster',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.bluetooth),
+            label: 'Devices',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.settings),
