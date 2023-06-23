@@ -1,4 +1,3 @@
-import 'package:device_info/device_info.dart';
 import 'package:flutter/material.dart';
 
 class SettingsTab extends StatefulWidget {
@@ -9,31 +8,6 @@ class SettingsTab extends StatefulWidget {
 }
 
 class _SettingsTabState extends State<SettingsTab> {
-  DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
-
-//   Future<void> info() async {
-//     IosDeviceInfo device = await deviceInfo.iosInfo;
-
-// // {
-// //     'Device Model': 'R2',
-// //     'Device Firmware Version': 'RF-1.4.2',
-// //     'Bluetooth Firmware Version': '3.0.0',
-// //   }
-
-//     print('iOS Device Info:');
-//     print('  name: ${device.name}');
-//     print('  systemName: ${device.systemName}');
-//     print('  systemVersion: ${device.systemVersion}');
-//     print('  model: ${device.model}');
-//     print('  isPhysicalDevice: ${device.isPhysicalDevice}');
-//   }
-
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   info();
-  // }
-
   Map<String, dynamic> data = {};
 
   @override
