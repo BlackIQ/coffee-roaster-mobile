@@ -1,6 +1,10 @@
 import 'dart:async';
+import 'dart:convert';
 
+import 'package:flutter_blue/flutter_blue.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:test/src/services/state/state.service.dart';
 
 class RoasterTab extends StatefulWidget {
   const RoasterTab({super.key});
@@ -19,14 +23,32 @@ class _RoasterTabState extends State<RoasterTab> {
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 
+  BluetoothDevice? connectedDevice;
+
+  void getBle(context) {
+    BluetoothDevice? ble = Provider.of<AppState>(context, listen: true).getBle;
+
+    setState(() {
+      connectedDevice = ble;
+    });
+  }
+
+  List<int> stringToHex(String input) {
+    List<int> bytes = utf8.encode(input);
+
+    return bytes;
+  }
+
   Map data = {
     'robusta': {
-      'minutes': 8,
+      'minutes': 5,
       'degree': 200,
+      'pin': 15,
     },
     'arabica': {
       'minutes': 10,
       'degree': 180,
+      'pin': 12,
     },
   };
 
@@ -43,23 +65,28 @@ class _RoasterTabState extends State<RoasterTab> {
         ),
         actions: [
           TextButton(
-            onPressed: () {
-              _showSnackBar(context, "Operation canceled");
-              Navigator.pop(context);
-            },
+            onPressed: () => Navigator.pop(context),
             style: TextButton.styleFrom(
               foregroundColor: Theme.of(context).colorScheme.error,
             ),
             child: const Text("Maybe later"),
           ),
           TextButton(
-            onPressed: () {
-              _showSnackBar(context, "Operation started");
-              // Data from API
-              Timer(Duration(seconds: bean['minutes']), () {
-                _showSnackBar(context, "Operation done. Your $type is ready");
-              });
-              Navigator.pop(context);
+            onPressed: () async {
+              if (connectedDevice != null) {
+                String send = '${bean["pin"]}.${bean["minutes"]}000';
+
+                List<BluetoothService>? services =
+                    await connectedDevice?.discoverServices();
+
+                services?.first.characteristics.first.write(stringToHex(send));
+
+                _showSnackBar(context, "Operation started");
+                Navigator.pop(context);
+              } else {
+                _showSnackBar(context, "First connect to a device");
+                Navigator.pop(context);
+              }
             },
             child: const Text("Yes"),
           ),
@@ -70,6 +97,8 @@ class _RoasterTabState extends State<RoasterTab> {
 
   @override
   Widget build(BuildContext context) {
+    getBle(context);
+
     return ListView.builder(
       itemCount: data.length,
       itemBuilder: (BuildContext context, int index) {
