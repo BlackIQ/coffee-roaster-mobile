@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_blue/flutter_blue.dart';
 import 'package:provider/provider.dart';
 import 'package:test/src/screens/home/tabs/devices/devices.tab.dart';
+import 'package:test/src/screens/home/tabs/devices/pages/scan.page.dart';
 import 'package:test/src/screens/home/tabs/roaster/raster.tab.dart';
 import 'package:test/src/screens/home/tabs/settings/settings.tab.dart';
 import 'package:test/src/services/state/state.service.dart';
@@ -13,11 +15,20 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  int _selectedIndex = 0;
+  Future<void> _showSnackBar(BuildContext context, String message) async {
+    final snackBar = SnackBar(
+      content: Text(message),
+      duration: const Duration(seconds: 1),
+    );
+
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
+
+  int _selectedIndex = 1;
 
   static const List<Widget> _widgetOptions = <Widget>[
-    RoasterTab(),
     DeviceTab(),
+    RoasterTab(),
     SettingsTab(),
   ];
 
@@ -29,7 +40,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    String theme = Provider.of<AppState>(context, listen: true).getTheme;
+    BluetoothDevice? device =
+        Provider.of<AppState>(context, listen: true).getBle;
 
     return Scaffold(
       appBar: AppBar(
@@ -37,10 +49,23 @@ class _HomeScreenState extends State<HomeScreen> {
         title: const Text('Home'),
         actions: [
           IconButton(
-            icon: Icon(theme == 'light' ? Icons.dark_mode : Icons.light_mode),
-            onPressed: () {
-              Provider.of<AppState>(context, listen: false)
-                  .setTheme(theme == 'light' ? 'dark' : 'light');
+            icon: Icon(
+                device == null ? Icons.bluetooth : Icons.bluetooth_disabled),
+            onPressed: () async {
+              if (device == null) {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const ScanPage(),
+                  ),
+                );
+              } else {
+                await device.disconnect();
+
+                Provider.of<AppState>(context, listen: false).unsetBle();
+
+                _showSnackBar(context, "Disconnected from ${device.name}");
+              }
             },
           ),
         ],
@@ -50,12 +75,12 @@ class _HomeScreenState extends State<HomeScreen> {
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.coffee_maker),
-            label: 'Roaster',
-          ),
-          BottomNavigationBarItem(
             icon: Icon(Icons.bluetooth),
             label: 'Devices',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.coffee_maker),
+            label: 'Roaster',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.settings),
@@ -67,7 +92,12 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Provider.of<AppState>(context, listen: false).setAuthenticated(false);
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const ScanPage(),
+            ),
+          ); // Provider.of<AppState>(context, listen: false).setAuthenticated(false);
         },
         child: const Icon(Icons.logout),
       ),
