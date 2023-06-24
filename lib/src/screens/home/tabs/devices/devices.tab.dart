@@ -1,8 +1,9 @@
 import 'dart:async';
-import 'dart:convert';
 
 import 'package:flutter_blue/flutter_blue.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:test/src/services/state/state.service.dart';
 
 class DeviceTab extends StatefulWidget {
   const DeviceTab({super.key});
@@ -27,7 +28,7 @@ class _DeviceTabState extends State<DeviceTab> {
 
   BluetoothDevice? connectedDevice;
 
-  List<ScanResult> scanResults = [];
+  List<ScanResult> scannedResult = [];
 
   @override
   void initState() {
@@ -35,65 +36,18 @@ class _DeviceTabState extends State<DeviceTab> {
     _startScan();
   }
 
-  void _startScan() {
+  void _startScan() async {
     try {
-      flutterBlue.startScan(timeout: const Duration(seconds: 4));
+      flutterBlue.startScan();
 
-      scanSubscription = flutterBlue.scanResults.listen((results) {
+      scanSubscription = flutterBlue.scanResults.listen((results) async {
         setState(() {
-          scanResults = results;
+          scannedResult = results;
         });
       });
     } catch (error) {
       _showSnackBar(context, "I have error");
     }
-  }
-
-  final TextEditingController _message = TextEditingController();
-
-  void write() {
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (_) => AlertDialog(
-        title: const Text('Communicate'),
-        content: TextField(
-          controller: _message,
-          decoration: const InputDecoration(hintText: "Enter your text"),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            style: TextButton.styleFrom(
-              foregroundColor: Theme.of(context).colorScheme.error,
-            ),
-            child: const Text("Close"),
-          ),
-          TextButton(
-            onPressed: () async {
-              List<BluetoothService>? services =
-                  await connectedDevice?.discoverServices();
-
-              services?.first.characteristics.first
-                  .write(stringToHex(_message.text));
-
-              // for (var service in services!) {
-              //   var characteristics = service.characteristics;
-
-              //   await characteristics[0].write(stringToHex(_message.text));
-              // }
-            },
-            child: const Text("Send"),
-          ),
-        ],
-      ),
-    );
-  }
-
-  List<int> stringToHex(String input) {
-    List<int> bytes = utf8.encode(input);
-
-    return bytes;
   }
 
   @override
@@ -105,29 +59,23 @@ class _DeviceTabState extends State<DeviceTab> {
 
   @override
   Widget build(BuildContext context) {
-    return scanResults.isNotEmpty
+    return scannedResult.isNotEmpty
         ? ListView.separated(
-            itemCount: scanResults.length,
+            itemCount: scannedResult.length,
             separatorBuilder: (context, index) => const Divider(),
             itemBuilder: (BuildContext context, int index) {
-              final result = scanResults[index];
-              final device = result.device;
+              final device = scannedResult[index].device;
 
               return ListTile(
                 title: Text(device.name),
-                subtitle: Text(device.id.toString()),
-                onTap: () {
-                  if (connectedDevice?.id == device.id) {
-                    write();
-                  } else {
-                    _showSnackBar(context, "First, connect to device");
-                  }
-                },
+                subtitle: Text("Mac: ${device.id}"),
                 trailing: TextButton(
                   onPressed: () async {
                     if (connectedDevice != null &&
                         connectedDevice!.id == device.id) {
                       await connectedDevice!.disconnect();
+
+                      Provider.of<AppState>(context, listen: false).unsetBle();
 
                       setState(() {
                         connectedDevice = null;
@@ -138,12 +86,14 @@ class _DeviceTabState extends State<DeviceTab> {
                     } else {
                       await device.connect();
 
+                      Provider.of<AppState>(context, listen: false)
+                          .setBle(device);
+
                       setState(() {
                         connectedDevice = device;
                       });
 
-                      _showSnackBar(
-                          context, "Conencted to from ${device.name}");
+                      _showSnackBar(context, "Conencted to ${device.name}");
                     }
                   },
                   child: Text(
