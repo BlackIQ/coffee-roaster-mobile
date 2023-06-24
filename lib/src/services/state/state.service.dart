@@ -33,4 +33,17 @@ class AppState extends ChangeNotifier {
     _ble = ble;
     notifyListeners();
   }
+
+  void unsetBle() {
+    _ble = null;
+    notifyListeners();
+  }
+
+  // Bluetooth device
+  String _bleId = "";
+  String get getBleId => _bleId;
+  void setBleId(String bleId) {
+    _bleId = bleId;
+    notifyListeners();
+  }
 }
