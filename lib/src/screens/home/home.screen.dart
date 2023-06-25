@@ -27,9 +27,15 @@ class _HomeScreenState extends State<HomeScreen> {
   int _selectedIndex = 1;
 
   static const List<Widget> _widgetOptions = <Widget>[
-    DeviceTab(),
+    // DeviceTab(),
+    Center(
+      child: Text("Devices"),
+    ),
     RoasterTab(),
-    SettingsTab(),
+    Center(
+      child: Text("Settings"),
+    ),
+    // SettingsTab(),
   ];
 
   void _onItemTapped(int index) {
