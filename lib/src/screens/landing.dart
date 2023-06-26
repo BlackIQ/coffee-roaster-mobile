@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:test/src/screens/auth/auth.screen.dart';
 import 'package:test/src/screens/home/home.screen.dart';
-import 'package:test/src/services/state/state.service.dart';
+import 'package:test/src/state/state.service.dart';
 
 class Landing extends StatefulWidget {
   const Landing({super.key});

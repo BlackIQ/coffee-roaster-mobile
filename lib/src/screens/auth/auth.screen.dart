@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:test/src/services/state/state.service.dart';
+import 'package:test/src/state/state.service.dart';
 
 class AuthScreen extends StatefulWidget {
   const AuthScreen({super.key});

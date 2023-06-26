@@ -5,7 +5,7 @@ import 'package:test/src/screens/home/tabs/devices/devices.tab.dart';
 import 'package:test/src/screens/home/tabs/devices/pages/scan.page.dart';
 import 'package:test/src/screens/home/tabs/roaster/raster.tab.dart';
 import 'package:test/src/screens/home/tabs/settings/settings.tab.dart';
-import 'package:test/src/services/state/state.service.dart';
+import 'package:test/src/state/state.service.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
