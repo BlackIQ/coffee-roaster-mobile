@@ -46,6 +46,7 @@ class _ScanPageState extends State<ScanPage> {
         });
       });
     } catch (error) {
+      print(error);
       _showSnackBar(context, "I have error");
     }
   }

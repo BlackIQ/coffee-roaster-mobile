@@ -96,17 +96,6 @@ class _HomeScreenState extends State<HomeScreen> {
         currentIndex: _selectedIndex,
         onTap: _onItemTapped,
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => const ScanPage(),
-            ),
-          ); // Provider.of<AppState>(context, listen: false).setAuthenticated(false);
-        },
-        child: const Icon(Icons.logout),
-      ),
     );
   }
 }
