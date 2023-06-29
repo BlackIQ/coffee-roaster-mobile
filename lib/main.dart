@@ -19,9 +19,9 @@ class MyApp extends StatelessWidget {
         title: 'Test Application',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
-          textTheme: GoogleFonts.vazirmatnTextTheme(),
+          textTheme: GoogleFonts.robotoTextTheme(),
           colorScheme: ColorScheme.fromSeed(
-            seedColor: Colors.red,
+            seedColor: Colors.brown,
           ),
           useMaterial3: true,
         ),

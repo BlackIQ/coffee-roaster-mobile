@@ -29,6 +29,7 @@ class _ScanPageState extends State<ScanPage> {
   BluetoothDevice? connectedDevice;
 
   List<ScanResult> scannedResult = [];
+  bool loading = true;
 
   @override
   void initState() {
@@ -37,17 +38,23 @@ class _ScanPageState extends State<ScanPage> {
   }
 
   void _startScan() async {
+    print("Start scanning");
+
     try {
       flutterBlue.startScan();
 
-      scanSubscription = flutterBlue.scanResults.listen((results) async {
+      scanSubscription = flutterBlue.scanResults.listen((results) {
         setState(() {
+          loading = false;
           scannedResult = results;
         });
       });
     } catch (error) {
-      print(error);
-      _showSnackBar(context, "I have error");
+      setState(() {
+        loading = false;
+      });
+
+      // _showSnackBar(context, "I have error");
     }
   }
 
@@ -66,53 +73,58 @@ class _ScanPageState extends State<ScanPage> {
         title: const Text('Scan devices'),
         elevation: 0,
       ),
-      body: scannedResult.isNotEmpty
-          ? ListView.separated(
-              itemCount: scannedResult.length,
-              separatorBuilder: (context, index) => const Divider(),
-              itemBuilder: (BuildContext context, int index) {
-                final device = scannedResult[index].device;
+      body: !loading
+          ? scannedResult.isNotEmpty
+              ? ListView.separated(
+                  itemCount: scannedResult.length,
+                  separatorBuilder: (context, index) => const Divider(),
+                  itemBuilder: (BuildContext context, int index) {
+                    final device = scannedResult[index].device;
 
-                return ListTile(
-                  title: Text(device.name),
-                  subtitle: Text("Mac: ${device.id}"),
-                  trailing: TextButton(
-                    onPressed: () async {
-                      if (connectedDevice != null &&
-                          connectedDevice!.id == device.id) {
-                        await connectedDevice!.disconnect();
+                    return ListTile(
+                      title: Text(device.name),
+                      subtitle: Text("Mac: ${device.id}"),
+                      trailing: TextButton(
+                        onPressed: () async {
+                          if (connectedDevice != null &&
+                              connectedDevice!.id == device.id) {
+                            await connectedDevice!.disconnect();
 
-                        Provider.of<AppState>(context, listen: false)
-                            .unsetBle();
+                            Provider.of<AppState>(context, listen: false)
+                                .unsetBle();
 
-                        setState(() {
-                          connectedDevice = null;
-                        });
+                            setState(() {
+                              connectedDevice = null;
+                            });
 
-                        _showSnackBar(
-                            context, "Disconnected from ${device.name}");
-                      } else {
-                        await device.connect();
+                            _showSnackBar(
+                                context, "Disconnected from ${device.name}");
+                          } else {
+                            await device.connect();
 
-                        Provider.of<AppState>(context, listen: false)
-                            .setBle(device);
+                            Provider.of<AppState>(context, listen: false)
+                                .setBle(device);
 
-                        setState(() {
-                          connectedDevice = device;
-                        });
+                            setState(() {
+                              connectedDevice = device;
+                            });
 
-                        _showSnackBar(context, "Conencted to ${device.name}");
-                      }
-                    },
-                    child: Text(
-                      connectedDevice?.id == device.id
-                          ? 'Disconnect'
-                          : 'Connect',
-                    ),
-                  ),
-                );
-              },
-            )
+                            _showSnackBar(
+                                context, "Conencted to ${device.name}");
+                          }
+                        },
+                        child: Text(
+                          connectedDevice?.id == device.id
+                              ? 'Disconnect'
+                              : 'Connect',
+                        ),
+                      ),
+                    );
+                  },
+                )
+              : const Center(
+                  child: Text("No devices found"),
+                )
           : const Center(
               child: CircularProgressIndicator(),
             ),

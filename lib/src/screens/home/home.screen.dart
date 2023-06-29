@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_blue/flutter_blue.dart';
 import 'package:provider/provider.dart';
-import 'package:test/src/screens/home/tabs/devices/devices.tab.dart';
 import 'package:test/src/screens/home/tabs/devices/pages/scan.page.dart';
 import 'package:test/src/screens/home/tabs/roaster/raster.tab.dart';
 import 'package:test/src/screens/home/tabs/settings/settings.tab.dart';
@@ -24,18 +23,11 @@ class _HomeScreenState extends State<HomeScreen> {
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 
-  int _selectedIndex = 1;
+  int _selectedIndex = 0;
 
   static const List<Widget> _widgetOptions = <Widget>[
-    // DeviceTab(),
-    Center(
-      child: Text("Devices"),
-    ),
     RoasterTab(),
-    Center(
-      child: Text("Settings"),
-    ),
-    // SettingsTab(),
+    SettingsTab(),
   ];
 
   void _onItemTapped(int index) {
@@ -75,15 +67,10 @@ class _HomeScreenState extends State<HomeScreen> {
             },
           ),
         ],
-        elevation: 0,
       ),
       body: _widgetOptions.elementAt(_selectedIndex),
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.bluetooth),
-            label: 'Devices',
-          ),
           BottomNavigationBarItem(
             icon: Icon(Icons.coffee_maker),
             label: 'Roaster',

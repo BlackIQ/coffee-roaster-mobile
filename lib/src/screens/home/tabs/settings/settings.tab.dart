@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:test/src/state/state.service.dart';
+import 'package:flutter_blue/flutter_blue.dart';
 
 class SettingsTab extends StatefulWidget {
   const SettingsTab({super.key});
@@ -10,13 +13,23 @@ class SettingsTab extends StatefulWidget {
 class _SettingsTabState extends State<SettingsTab> {
   Map<String, dynamic> data = {};
 
-  // @override
-  // void initState() {
-  //   super.initState();
-  // }
+  Map bleSettinfs = {};
+
+  void setBleSettinfs() {
+    BluetoothDevice? ble = Provider.of<AppState>(context, listen: true).getBle;
+
+    setState(() {
+      bleSettinfs = {
+        "Bluetooth Name": ble?.name,
+        "Bluetooth ID": ble?.id,
+      };
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
+    setBleSettinfs();
+
     return ListView.separated(
       itemCount: data.length,
       separatorBuilder: (BuildContext context, int index) {
