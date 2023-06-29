@@ -39,7 +39,7 @@ class _ScanPageState extends State<ScanPage> {
   }
 
   void _startScan() async {
-    log("Ok?");
+    log("Scan started");
 
     try {
       flutterBlue.startScan();
