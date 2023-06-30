@@ -16,6 +16,7 @@ dependencies:
   flutter_blue: ^0.8.0
   permission_handler: ^10.3.0
   flutter_localization: ^0.1.12
+  intl: ^0.18.0
 
 dev_dependencies:
   flutter_test:
