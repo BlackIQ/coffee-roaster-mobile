@@ -1,7 +1,10 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:roaster/src/screens/home/pages/settings/language.page.dart';
+
 import 'package:roaster/src/state/state.service.dart';
-import 'package:flutter_blue/flutter_blue.dart';
 
 class SettingsTab extends StatefulWidget {
   const SettingsTab({super.key});
@@ -11,42 +14,40 @@ class SettingsTab extends StatefulWidget {
 }
 
 class _SettingsTabState extends State<SettingsTab> {
-  Map<String, dynamic> data = {};
+  String dropdownValue = 'en';
 
-  Map bleSettinfs = {};
-
-  void setBleSettinfs() {
-    BluetoothDevice? ble = Provider.of<AppState>(context, listen: true).getBle;
-
-    setState(() {
-      bleSettinfs = {
-        "Bluetooth Name": ble?.name,
-        "Bluetooth ID": ble?.id,
-      };
-    });
-  }
+  List settings = [
+    {
+      'title': "Language",
+      'page': const LanguageSettings(),
+    },
+  ];
 
   @override
   Widget build(BuildContext context) {
-    setBleSettinfs();
-
     return ListView.separated(
-      itemCount: data.length,
+      itemCount: settings.length,
       separatorBuilder: (BuildContext context, int index) {
         return const Divider();
       },
       itemBuilder: (BuildContext context, int index) {
-        final entry = data.entries.toList()[index];
         return ListTile(
-          title: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(entry.key),
-              Text(entry.value.toString()),
-            ],
+          title: Text(settings[index]['title']),
+          onTap: () => Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => settings[index]['page'],
+            ),
           ),
         );
       },
     );
   }
 }
+
+// Navigator.push(
+//                   context,
+//                   MaterialPageRoute(
+//                     builder: (context) => const settings[index]['page'],
+//                   ),
+//                 )
