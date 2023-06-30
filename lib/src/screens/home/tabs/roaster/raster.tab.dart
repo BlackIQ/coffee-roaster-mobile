@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:flutter_blue/flutter_blue.dart';
 import 'package:flutter/material.dart';
@@ -41,14 +42,19 @@ class _RoasterTabState extends State<RoasterTab> {
 
   Map data = {
     'robusta': {
-      'minutes': 5,
-      'degree': 200,
-      'pin': 15,
+      'duration': 5,
+      'pin': 14,
+      'relay': 1,
     },
     'arabica': {
-      'minutes': 10,
-      'degree': 180,
+      'duration': 10,
       'pin': 12,
+      'relay': 1,
+    },
+    'test': {
+      'duration': 5,
+      'pin': 15,
+      'relay': 0,
     },
   };
 
@@ -74,12 +80,26 @@ class _RoasterTabState extends State<RoasterTab> {
           TextButton(
             onPressed: () async {
               if (connectedDevice != null) {
-                String send = '${bean["pin"]}.${bean["minutes"]}000';
+                Map sendObject = {
+                  "pin": bean['pin'],
+                  "type": bean['relay'] == 1 ? "relay" : 'normal',
+                  "duration": bean['duration'] * 1000,
+                };
+
+                List<int> sendHex = stringToHex(jsonEncode(sendObject));
+
+                log(jsonEncode(sendObject));
 
                 List<BluetoothService>? services =
                     await connectedDevice?.discoverServices();
 
-                services?.first.characteristics.first.write(stringToHex(send));
+                services?.forEach((service) async {
+                  var characteristics = service.characteristics;
+
+                  for (BluetoothCharacteristic c in characteristics) {
+                    await c.write(sendHex);
+                  }
+                });
 
                 _showSnackBar(context, "Operation started");
                 Navigator.pop(context);
@@ -125,17 +145,17 @@ class _RoasterTabState extends State<RoasterTab> {
                       ),
                       const SizedBox(height: 10),
                       Text(
-                        "Minutes: ${entry.value['minutes']}",
+                        "Duration: ${entry.value['duration']}",
                         style: const TextStyle(
                           fontSize: 15,
                         ),
                       ),
-                      Text(
-                        "Degress: ${entry.value['degree']}°C",
-                        style: const TextStyle(
-                          fontSize: 15,
-                        ),
-                      ),
+                      // Text(
+                      //   "Degress: ${entry.value['degree']}°C",
+                      //   style: const TextStyle(
+                      //     fontSize: 15,
+                      //   ),
+                      // ),
                     ],
                   ),
                 ),
