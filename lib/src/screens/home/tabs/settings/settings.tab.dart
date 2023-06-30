@@ -1,10 +1,7 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:roaster/src/screens/home/pages/settings/language.page.dart';
 
-import 'package:roaster/src/state/state.service.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SettingsTab extends StatefulWidget {
   const SettingsTab({super.key});
@@ -14,21 +11,24 @@ class SettingsTab extends StatefulWidget {
 }
 
 class _SettingsTabState extends State<SettingsTab> {
-  String dropdownValue = 'en';
-
-  List settings = [
-    {
-      'title': "Language",
-      'page': const LanguageSettings(),
-    },
-  ];
-
   @override
   Widget build(BuildContext context) {
+    final lang = AppLocalizations.of(context);
+
+    List settings = [
+      {
+        'title': lang!.tab_settings_lang,
+        'page': const LanguageSettings(),
+      },
+    ];
+
     return ListView.separated(
+      padding: const EdgeInsets.all(10),
       itemCount: settings.length,
       separatorBuilder: (BuildContext context, int index) {
-        return const Divider();
+        return Divider(
+          color: Theme.of(context).colorScheme.primary,
+        );
       },
       itemBuilder: (BuildContext context, int index) {
         return ListTile(
@@ -44,10 +44,3 @@ class _SettingsTabState extends State<SettingsTab> {
     );
   }
 }
-
-// Navigator.push(
-//                   context,
-//                   MaterialPageRoute(
-//                     builder: (context) => const settings[index]['page'],
-//                   ),
-//                 )

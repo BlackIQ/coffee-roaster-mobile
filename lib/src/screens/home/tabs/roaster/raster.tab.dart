@@ -7,6 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:roaster/src/state/state.service.dart';
 
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 class RoasterTab extends StatefulWidget {
   const RoasterTab({super.key});
 
@@ -40,32 +42,17 @@ class _RoasterTabState extends State<RoasterTab> {
     return bytes;
   }
 
-  Map data = {
-    'robusta': {
-      'duration': 5,
-      'pin': 14,
-      'relay': 1,
-    },
-    'arabica': {
-      'duration': 10,
-      'pin': 12,
-      'relay': 1,
-    },
-    'test': {
-      'duration': 5,
-      'pin': 15,
-      'relay': 0,
-    },
-  };
-
-  void roast(type) {
+  void roast(type, data) {
     Map bean = data[type.toString().toLowerCase()];
+    final lang = AppLocalizations.of(context);
 
     showDialog(
       context: context,
       barrierDismissible: false,
       builder: (_) => AlertDialog(
+        // TODO: Dialog title with arg
         title: Text('Roasting $type'),
+        // TODO: Dialog content with args
         content: Text(
           "Do you confirm you want to roast your $type for ${bean['minutes']} minutes and ${bean['degree']}°C?",
         ),
@@ -75,7 +62,7 @@ class _RoasterTabState extends State<RoasterTab> {
             style: TextButton.styleFrom(
               foregroundColor: Theme.of(context).colorScheme.error,
             ),
-            child: const Text("Maybe later"),
+            child: Text(lang!.dialog_roast_no),
           ),
           TextButton(
             onPressed: () async {
@@ -101,14 +88,14 @@ class _RoasterTabState extends State<RoasterTab> {
                   }
                 });
 
-                _showSnackBar(context, "Operation started");
+                _showSnackBar(context, lang.toast_start_operation);
                 Navigator.pop(context);
               } else {
-                _showSnackBar(context, "First connect to a device");
+                _showSnackBar(context, lang.toast_no_device);
                 Navigator.pop(context);
               }
             },
-            child: const Text("Yes"),
+            child: Text(lang.dialog_roast_yes),
           ),
         ],
       ),
@@ -118,6 +105,26 @@ class _RoasterTabState extends State<RoasterTab> {
   @override
   Widget build(BuildContext context) {
     getBle(context);
+
+    final lang = AppLocalizations.of(context);
+
+    Map data = {
+      lang!.bean_robusta: {
+        'duration': 5,
+        'pin': 14,
+        'relay': 1,
+      },
+      lang.bean_arabica: {
+        'duration': 10,
+        'pin': 12,
+        'relay': 1,
+      },
+      lang.bean_test: {
+        'duration': 5,
+        'pin': 15,
+        'relay': 0,
+      },
+    };
 
     return ListView.builder(
       itemCount: data.length,
@@ -156,7 +163,7 @@ class _RoasterTabState extends State<RoasterTab> {
                 ),
               ),
             ),
-            onTap: () => roast(entry.key),
+            onTap: () => roast(entry.key, data),
           ),
         );
       },

@@ -1,5 +1,19 @@
 {
   "@@locale": "en",
   "app_title": "Roaster",
-  "bean_arabica": "Arabica"
+  "tab_settings_lang": "Language",
+  "page_scan_title": "Scan devices",
+  "page_scan_no_device": "No device founded",
+  "page_settings_language_title": "Change language",
+  "ble_button_connect": "Connect",
+  "ble_button_disconnect": "Disonnect",
+  "bean_robusta": "Robusta",
+  "bean_arabica": "Arabica",
+  "bean_test": "Test",
+  "bottom_navigator_roaster": "Roast",
+  "bottom_navigator_settings": "Settings",
+  "toast_no_device": "Please connect to a device first",
+  "toast_start_operation": "Operation started",
+  "dialog_roast_yes": "Start",
+  "dialog_roast_no": "Maybe later"
 }

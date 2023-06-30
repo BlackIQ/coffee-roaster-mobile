@@ -8,6 +8,8 @@ import 'package:flutter/cupertino.dart';
 
 import 'package:roaster/src/state/state.service.dart';
 
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 class ScanPage extends StatefulWidget {
   const ScanPage({super.key});
 
@@ -66,10 +68,12 @@ class _ScanPageState extends State<ScanPage> {
 
   @override
   Widget build(BuildContext context) {
+    final lang = AppLocalizations.of(context);
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: const Text('Scan devices'),
+        title: Text(lang!.page_scan_title),
         elevation: 1,
       ),
       body: !loading
@@ -82,7 +86,7 @@ class _ScanPageState extends State<ScanPage> {
 
                     return ListTile(
                       title: Text(
-                        device.name != "" ? device.name : "No name",
+                        device.name != "" ? device.name : "N/A",
                         style: TextStyle(
                           fontStyle: device.name == ""
                               ? FontStyle.italic
@@ -121,15 +125,15 @@ class _ScanPageState extends State<ScanPage> {
                         },
                         child: Text(
                           connectedDevice?.id == device.id
-                              ? 'Disconnect'
-                              : 'Connect',
+                              ? lang.ble_button_disconnect
+                              : lang.ble_button_connect,
                         ),
                       ),
                     );
                   },
                 )
-              : const Center(
-                  child: Text("No devices found"),
+              : Center(
+                  child: Text(lang.page_scan_no_device),
                 )
           : Center(
               child: Platform.isIOS

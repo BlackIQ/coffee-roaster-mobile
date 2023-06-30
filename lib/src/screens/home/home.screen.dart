@@ -75,14 +75,14 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       body: _widgetOptions.elementAt(_selectedIndex),
       bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
+        items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.coffee_maker),
-            label: 'Roaster',
+            icon: const Icon(Icons.coffee_maker),
+            label: lang.bottom_navigator_roaster,
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.settings),
-            label: 'Settings',
+            icon: const Icon(Icons.settings),
+            label: lang.bottom_navigator_settings,
           ),
         ],
         currentIndex: _selectedIndex,
