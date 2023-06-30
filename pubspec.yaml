@@ -17,6 +17,7 @@ dependencies:
   permission_handler: ^10.3.0
   flutter_localization: ^0.1.12
   intl: ^0.18.0
+  intl_translation: ^0.18.2
 
 dev_dependencies:
   flutter_test:
