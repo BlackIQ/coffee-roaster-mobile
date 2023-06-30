@@ -1,5 +1,5 @@
 {
-    "@@locale": "en",
-    "title": "App Title"
-  }
-  
+  "@@locale": "en",
+  "app_title": "Roaster",
+  "bean_arabica": "Arabica"
+}
