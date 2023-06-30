@@ -6,6 +6,8 @@ import 'package:roaster/src/screens/home/tabs/roaster/raster.tab.dart';
 import 'package:roaster/src/screens/home/tabs/settings/settings.tab.dart';
 import 'package:roaster/src/state/state.service.dart';
 
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
@@ -41,10 +43,12 @@ class _HomeScreenState extends State<HomeScreen> {
     BluetoothDevice? device =
         Provider.of<AppState>(context, listen: true).getBle;
 
+    final lang = AppLocalizations.of(context);
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: const Text('Roaster'),
+        title: Text(lang!.app_title),
         elevation: 1,
         actions: [
           IconButton(
