@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_blue/flutter_blue.dart';
 import 'package:provider/provider.dart';
-import 'package:roaster/src/screens/home/tabs/devices/pages/scan.page.dart';
+import 'package:roaster/src/screens/home/pages/scan/scan.page.dart';
 import 'package:roaster/src/screens/home/tabs/roaster/raster.tab.dart';
 import 'package:roaster/src/screens/home/tabs/settings/settings.tab.dart';
 import 'package:roaster/src/state/state.service.dart';
@@ -44,7 +44,8 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: const Text('Home'),
+        title: const Text('Roaster'),
+        elevation: 1,
         actions: [
           IconButton(
             icon: Icon(

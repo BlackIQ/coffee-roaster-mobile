@@ -69,8 +69,8 @@ class _ScanPageState extends State<ScanPage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: const Text('جست و جوی دستگاه‌ها'),
-        elevation: 0,
+        title: const Text('Scan devices'),
+        elevation: 1,
       ),
       body: !loading
           ? scannedResult.isNotEmpty
@@ -129,7 +129,7 @@ class _ScanPageState extends State<ScanPage> {
                   },
                 )
               : const Center(
-                  child: Text("دستگاهی پیدا نشد"),
+                  child: Text("No devices found"),
                 )
           : Center(
               child: Platform.isIOS

@@ -129,10 +129,11 @@ class _RoasterTabState extends State<RoasterTab> {
         return ListTile(
           title: GestureDetector(
             child: Card(
-              elevation: 5,
+              margin: const EdgeInsets.all(5),
+              elevation: 1,
               child: SizedBox(
                 child: Padding(
-                  padding: const EdgeInsets.all(20.0),
+                  padding: const EdgeInsets.all(20),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -150,12 +151,6 @@ class _RoasterTabState extends State<RoasterTab> {
                           fontSize: 15,
                         ),
                       ),
-                      // Text(
-                      //   "Degress: ${entry.value['degree']}°C",
-                      //   style: const TextStyle(
-                      //     fontSize: 15,
-                      //   ),
-                      // ),
                     ],
                   ),
                 ),
