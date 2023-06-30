@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           textTheme: GoogleFonts.robotoTextTheme(),
           colorScheme: ColorScheme.fromSeed(
-            seedColor: Colors.brown,
+            seedColor: Colors.blue,
           ),
           useMaterial3: true,
         ),
