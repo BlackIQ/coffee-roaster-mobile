@@ -2,6 +2,14 @@ import 'package:flutter_blue/flutter_blue.dart';
 import 'package:flutter/material.dart';
 
 class AppState extends ChangeNotifier {
+// language
+  Locale _locale = const Locale('en', '');
+  Locale get getLocale => _locale;
+  void setLocale(Locale locale) {
+    _locale = locale;
+    notifyListeners();
+  }
+
   // Authentication
   bool _authenticated = true;
   bool get getAuthenticated => _authenticated;
