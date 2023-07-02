@@ -75,6 +75,9 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       body: _widgetOptions.elementAt(_selectedIndex),
       bottomNavigationBar: BottomNavigationBar(
+        selectedItemColor: Theme.of(context).colorScheme.inversePrimary,
+        currentIndex: _selectedIndex,
+        onTap: _onItemTapped,
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: const Icon(Icons.coffee_maker),
@@ -85,8 +88,6 @@ class _HomeScreenState extends State<HomeScreen> {
             label: lang.bottom_navigator_settings,
           ),
         ],
-        currentIndex: _selectedIndex,
-        onTap: _onItemTapped,
       ),
     );
   }
