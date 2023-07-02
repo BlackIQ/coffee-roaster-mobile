@@ -88,12 +88,18 @@ class _ScanPageState extends State<ScanPage> {
                       title: Text(
                         device.name != "" ? device.name : "N/A",
                         style: TextStyle(
+                          color: Theme.of(context).colorScheme.onBackground,
                           fontStyle: device.name == ""
                               ? FontStyle.italic
                               : FontStyle.normal,
                         ),
                       ),
-                      subtitle: Text("Mac: ${device.id}"),
+                      subtitle: Text(
+                        "Mac: ${device.id}",
+                        style: TextStyle(
+                          color: Theme.of(context).colorScheme.secondary,
+                        ),
+                      ),
                       trailing: TextButton(
                         onPressed: () async {
                           if (connectedDevice != null &&
