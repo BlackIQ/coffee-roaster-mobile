@@ -34,6 +34,14 @@ class AppState extends ChangeNotifier {
     notifyListeners();
   }
 
+  // Theme
+  MaterialColor _themeColor = Colors.blue;
+  MaterialColor get getThemeColor => _themeColor;
+  void setThemeColor(MaterialColor themeColor) {
+    _themeColor = themeColor;
+    notifyListeners();
+  }
+
   // Bluetooth device
   BluetoothDevice? _ble;
   BluetoothDevice? get getBle => _ble;
