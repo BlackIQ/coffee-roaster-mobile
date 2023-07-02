@@ -2,9 +2,11 @@
   "@@locale": "fa",
   "app_title": "سرخ‌کن",
   "tab_settings_lang": "زبان",
+  "tab_settings_theme": "تم",
   "page_scan_title": "انتخاب دستگاه",
   "page_scan_no_device": "دستگاهی پیدا نشد",
   "page_settings_language_title": "تغییر زبان",
+  "page_settings_title_title": "تغییر تم",
   "ble_button_connect": "اتصال",
   "ble_button_disconnect": "قطع اتصال",
   "bean_robusta": "ربوستا",
@@ -15,5 +17,38 @@
   "toast_no_device": "ابتدا به یک دستگاه متصل شوید",
   "toast_start_operation": "عملیات آغاز شد",
   "dialog_roast_yes": "شروع",
-  "dialog_roast_no": "شاید بعدا"
+  "dialog_roast_no": "شاید بعدا",
+  "theme_light": "تم روشن",
+  "theme_dark": "تم تاریک",
+  "roast_duration": "مدت زمان: {duration}",
+  "@roast_duration": { 
+    "placeholders": {
+      "duration": {
+        "type": "String",
+        "example": "1"
+      }
+    }  
+  },
+  "dialog_roast_title": "سرخ کردن {title}",
+  "@dialog_roast_title": { 
+    "placeholders": {
+      "title": {
+        "type": "String",
+        "example": "Testing"
+      }
+    }  
+  },
+  "dialog_roast_content": "آیا تایید میکنید که {title} به مدت {duration} دقیقه سرخ شود؟?",
+  "@dialog_roast_content": { 
+    "placeholders": {
+      "title": {
+        "type": "String",
+        "example": "1"
+      },
+      "duration": {
+        "type": "String",
+        "example": "2"
+      }
+    }  
+  }
 }

@@ -2,9 +2,11 @@
   "@@locale": "en",
   "app_title": "Roaster",
   "tab_settings_lang": "Language",
+  "tab_settings_theme": "Theme",
   "page_scan_title": "Scan devices",
   "page_scan_no_device": "No device founded",
   "page_settings_language_title": "Change language",
+  "page_settings_title_title": "Change theme",
   "ble_button_connect": "Connect",
   "ble_button_disconnect": "Disonnect",
   "bean_robusta": "Robusta",
@@ -15,5 +17,38 @@
   "toast_no_device": "Please connect to a device first",
   "toast_start_operation": "Operation started",
   "dialog_roast_yes": "Start",
-  "dialog_roast_no": "Maybe later"
+  "dialog_roast_no": "Maybe later",
+  "theme_light": "Light theme",
+  "theme_dark": "Dark theme",
+  "roast_duration": "Duration: {duration}",
+  "@roast_duration": { 
+    "placeholders": {
+      "duration": {
+        "type": "String",
+        "example": "1"
+      }
+    }  
+  },
+  "dialog_roast_title": "Roasting {title}",
+  "@dialog_roast_title": { 
+    "placeholders": {
+      "title": {
+        "type": "String",
+        "example": "Testing"
+      }
+    }  
+  },
+  "dialog_roast_content": "Do you confirm you want to roat your {title} for {duration} minutes?",
+  "@dialog_roast_content": { 
+    "placeholders": {
+      "title": {
+        "type": "String",
+        "example": "1"
+      },
+      "duration": {
+        "type": "String",
+        "example": "2"
+      }
+    }  
+  }
 }
