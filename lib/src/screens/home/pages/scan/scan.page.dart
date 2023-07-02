@@ -139,7 +139,12 @@ class _ScanPageState extends State<ScanPage> {
                   },
                 )
               : Center(
-                  child: Text(lang.page_scan_no_device),
+                  child: Text(
+                    lang.page_scan_no_device,
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.onBackground,
+                    ),
+                  ),
                 )
           : Center(
               child: Platform.isIOS
