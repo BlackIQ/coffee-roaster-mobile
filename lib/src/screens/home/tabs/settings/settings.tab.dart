@@ -40,7 +40,12 @@ class _SettingsTabState extends State<SettingsTab> {
             ),
           ),
         ),
-        const Text("V Beta 1.0.0"),
+        Text(
+          "V Beta 1.0.0",
+          style: TextStyle(
+            color: Theme.of(context).colorScheme.onBackground,
+          ),
+        ),
         Expanded(
           child: ListView.separated(
             padding: const EdgeInsets.all(10),

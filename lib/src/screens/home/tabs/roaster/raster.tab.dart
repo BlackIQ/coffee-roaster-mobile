@@ -57,7 +57,7 @@ class _RoasterTabState extends State<RoasterTab> {
           ),
         ),
         content: Text(
-          lang!.dialog_roast_content(bean['title'], bean['duration']),
+          lang.dialog_roast_content(bean['title'], bean['duration']),
           style: TextStyle(
             color: Theme.of(context).colorScheme.secondary,
           ),
@@ -68,7 +68,7 @@ class _RoasterTabState extends State<RoasterTab> {
             style: TextButton.styleFrom(
               foregroundColor: Theme.of(context).colorScheme.error,
             ),
-            child: Text(lang!.dialog_roast_no),
+            child: Text(lang.dialog_roast_no),
           ),
           TextButton(
             onPressed: () async {
