@@ -20,7 +20,6 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     final state = Provider.of<AppState>(context, listen: true);
     final locale = state.getLocale;
-    final theme = state.getTheme;
 
     final isPersian = locale.languageCode == 'fa';
 
@@ -33,8 +32,8 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         textTheme: GoogleFonts.vazirmatnTextTheme(),
         colorScheme: ColorScheme.fromSeed(
-          brightness: theme,
-          seedColor: Colors.blue,
+          brightness: state.getTheme,
+          seedColor: state.getThemeColor,
         ),
         useMaterial3: true,
       ),
