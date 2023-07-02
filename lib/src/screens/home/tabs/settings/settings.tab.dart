@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:roaster/src/screens/home/pages/settings/language.page.dart';
 
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:roaster/src/screens/home/pages/settings/theme.page.dart';
 
 class SettingsTab extends StatefulWidget {
   const SettingsTab({super.key});
@@ -20,27 +21,54 @@ class _SettingsTabState extends State<SettingsTab> {
         'title': lang!.tab_settings_lang,
         'page': const LanguageSettings(),
       },
+      {
+        'title': lang.tab_settings_theme,
+        'page': const ThemeSettings(),
+      },
     ];
 
-    return ListView.separated(
-      padding: const EdgeInsets.all(10),
-      itemCount: settings.length,
-      separatorBuilder: (BuildContext context, int index) {
-        return Divider(
-          color: Theme.of(context).colorScheme.primary,
-        );
-      },
-      itemBuilder: (BuildContext context, int index) {
-        return ListTile(
-          title: Text(settings[index]['title']),
-          onTap: () => Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => settings[index]['page'],
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        const Center(
+          child: Padding(
+            padding: EdgeInsets.only(top: 20, bottom: 10),
+            child: CircleAvatar(
+              radius: 50,
+              child: Text("A"),
             ),
           ),
-        );
-      },
+        ),
+        const Text("V Beta 1.0.0"),
+        Expanded(
+          child: ListView.separated(
+            padding: const EdgeInsets.all(10),
+            itemCount: settings.length,
+            separatorBuilder: (BuildContext context, int index) {
+              return Divider(
+                color: Theme.of(context).colorScheme.primary,
+              );
+            },
+            itemBuilder: (BuildContext context, int index) {
+              return ListTile(
+                title: Text(
+                  settings[index]['title'],
+                  style: TextStyle(
+                    color: Theme.of(context).colorScheme.onBackground,
+                  ),
+                ),
+                onTap: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => settings[index]['page'],
+                  ),
+                ),
+              );
+            },
+          ),
+        ),
+      ],
     );
   }
 }

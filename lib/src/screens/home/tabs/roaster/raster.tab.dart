@@ -42,19 +42,25 @@ class _RoasterTabState extends State<RoasterTab> {
     return bytes;
   }
 
-  void roast(type, data) {
-    Map bean = data[type.toString().toLowerCase()];
+  void roast(id, data, lang) {
+    Map bean = data[id];
     final lang = AppLocalizations.of(context);
 
     showDialog(
       context: context,
       barrierDismissible: false,
       builder: (_) => AlertDialog(
-        // TODO: Dialog title with arg
-        title: Text('Roasting $type'),
-        // TODO: Dialog content with args
+        title: Text(
+          lang!.dialog_roast_title(bean['title']),
+          style: TextStyle(
+            color: Theme.of(context).colorScheme.onBackground,
+          ),
+        ),
         content: Text(
-          "Do you confirm you want to roast your $type for ${bean['minutes']} minutes and ${bean['degree']}°C?",
+          lang!.dialog_roast_content(bean['title'], bean['duration']),
+          style: TextStyle(
+            color: Theme.of(context).colorScheme.secondary,
+          ),
         ),
         actions: [
           TextButton(
@@ -108,30 +114,34 @@ class _RoasterTabState extends State<RoasterTab> {
 
     final lang = AppLocalizations.of(context);
 
-    Map data = {
-      lang!.bean_robusta: {
-        'duration': 5,
+    List data = [
+      {
+        'title': lang!.bean_robusta,
+        'duration': "5",
         'pin': 14,
         'relay': 1,
       },
-      lang.bean_arabica: {
-        'duration': 10,
+      {
+        'title': lang.bean_arabica,
+        'duration': "10",
         'pin': 12,
         'relay': 1,
       },
-      lang.bean_test: {
-        'duration': 5,
+      {
+        'title': lang.bean_test,
+        'duration': "5",
         'pin': 15,
         'relay': 0,
       },
-    };
+    ];
 
     return ListView.builder(
       itemCount: data.length,
       itemBuilder: (BuildContext context, int index) {
-        final entry = data.entries.toList()[index];
+        final entry = data[index];
 
-        String name = entry.key[0].toUpperCase() + entry.key.substring(1);
+        String name =
+            entry['title'][0].toUpperCase() + entry['title'].substring(1);
 
         return ListTile(
           title: GestureDetector(
@@ -146,16 +156,18 @@ class _RoasterTabState extends State<RoasterTab> {
                     children: [
                       Text(
                         name,
-                        style: const TextStyle(
+                        style: TextStyle(
+                          color: Theme.of(context).colorScheme.onBackground,
                           fontSize: 30,
                           fontWeight: FontWeight.w500,
                         ),
                       ),
                       const SizedBox(height: 10),
                       Text(
-                        "Duration: ${entry.value['duration']}",
-                        style: const TextStyle(
+                        lang.roast_duration(entry['duration']),
+                        style: TextStyle(
                           fontSize: 15,
+                          color: Theme.of(context).colorScheme.secondary,
                         ),
                       ),
                     ],
@@ -163,7 +175,7 @@ class _RoasterTabState extends State<RoasterTab> {
                 ),
               ),
             ),
-            onTap: () => roast(entry.key, data),
+            onTap: () => roast(index, data, lang),
           ),
         );
       },
