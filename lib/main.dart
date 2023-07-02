@@ -18,7 +18,10 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final locale = Provider.of<AppState>(context, listen: true).getLocale;
+    final state = Provider.of<AppState>(context, listen: true);
+    final locale = state.getLocale;
+    final theme = state.getTheme;
+
     final isPersian = locale.languageCode == 'fa';
 
     return MaterialApp(
@@ -30,6 +33,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         textTheme: GoogleFonts.vazirmatnTextTheme(),
         colorScheme: ColorScheme.fromSeed(
+          brightness: theme,
           seedColor: Colors.blue,
         ),
         useMaterial3: true,
