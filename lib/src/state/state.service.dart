@@ -27,9 +27,9 @@ class AppState extends ChangeNotifier {
   }
 
   // Theme
-  String _theme = 'light';
-  String get getTheme => _theme;
-  void setTheme(String theme) {
+  Brightness _theme = Brightness.light;
+  Brightness get getTheme => _theme;
+  void setTheme(Brightness theme) {
     _theme = theme;
     notifyListeners();
   }
