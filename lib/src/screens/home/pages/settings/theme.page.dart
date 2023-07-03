@@ -16,21 +16,23 @@ class _ThemeSettingsState extends State<ThemeSettings> {
   void _showColorBottomSheet(BuildContext context) {
     showModalBottomSheet(
       context: context,
+      elevation: 0,
       builder: (BuildContext context) {
         return SizedBox(
-          height: 250,
+          height: 300,
           child: ListView.separated(
             itemCount: Colors.primaries.length,
             separatorBuilder: (context, index) => const Divider(),
             itemBuilder: (BuildContext context, int index) {
               final color = Colors.primaries[index];
-              final colorName = color.toString();
+              // final colorName = color.toString();
 
               return ListTile(
                 title: Text(
-                  colorName,
+                  "Color ${index + 1}",
                   style: TextStyle(
-                    color: Theme.of(context).colorScheme.onBackground,
+                    color: color,
+                    // color: Theme.of(context).colorScheme.onBackground,
                   ),
                 ),
                 trailing: Icon(Icons.brush, color: color),
