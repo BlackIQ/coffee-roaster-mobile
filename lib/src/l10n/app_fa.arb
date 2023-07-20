@@ -57,5 +57,14 @@
         "example": "2"
       }
     }  
+  },
+  "color_number": "رنگ {index}",
+  "@color_number": { 
+    "placeholders": {
+      "index": {
+        "type": "String",
+        "example": "1"
+      }
+    }  
   }
 }
