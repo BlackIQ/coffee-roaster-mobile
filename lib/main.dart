@@ -4,7 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 import 'package:roaster/src/screens/landing.dart';
-import 'package:roaster/src/state/state.service.dart';
+import 'package:roaster/src/services/state/state.service.dart';
 
 void main() {
   runApp(ChangeNotifierProvider<AppState>(
