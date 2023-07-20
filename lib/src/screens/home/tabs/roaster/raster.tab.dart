@@ -144,12 +144,6 @@ class _RoasterTabState extends State<RoasterTab> {
         'pin': 12,
         'relay': 1,
       },
-      {
-        'title': lang.bean_test,
-        'duration': 10,
-        'pin': 15,
-        'relay': 0,
-      },
     ];
 
     return ListView.builder(
