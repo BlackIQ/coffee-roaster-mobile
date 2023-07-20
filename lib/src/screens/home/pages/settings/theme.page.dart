@@ -1,7 +1,8 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-import 'package:roaster/src/state/state.service.dart';
+import 'package:roaster/src/services/state/state.service.dart';
 
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -14,6 +15,8 @@ class ThemeSettings extends StatefulWidget {
 
 class _ThemeSettingsState extends State<ThemeSettings> {
   void _showColorBottomSheet(BuildContext context) {
+    final lang = AppLocalizations.of(context);
+
     showModalBottomSheet(
       context: context,
       elevation: 0,
@@ -25,20 +28,27 @@ class _ThemeSettingsState extends State<ThemeSettings> {
             separatorBuilder: (context, index) => const Divider(),
             itemBuilder: (BuildContext context, int index) {
               final color = Colors.primaries[index];
-              // final colorName = color.toString();
+
+              final red = color.red;
+              final green = color.green;
+              final blue = color.blue;
+
+              String colorCode = "#$red$green$blue";
 
               return ListTile(
                 title: Text(
-                  "Color ${index + 1}",
+                  "${lang!.color_number((index + 1).toString())} $colorCode",
                   style: TextStyle(
                     color: color,
-                    // color: Theme.of(context).colorScheme.onBackground,
                   ),
                 ),
                 trailing: Icon(Icons.brush, color: color),
                 onTap: () {
-                  Provider.of<AppState>(context, listen: false)
-                      .setThemeColor(color);
+                  Provider.of<AppState>(context, listen: false).setThemeColor(
+                    color,
+                  );
+
+                  Navigator.pop(context);
                 },
               );
             },
@@ -140,12 +150,18 @@ class _ThemeSettingsState extends State<ThemeSettings> {
             const SizedBox(
               height: 10,
             ),
-            ElevatedButton(
+            OutlinedButton(
               onPressed: () => _showColorBottomSheet(context),
               child: Text(
                 lang.settings_color_bottom,
               ),
             ),
+            // ElevatedButton(
+            //   onPressed: () => _showColorBottomSheet(context),
+            //   child: Text(
+            //     lang.settings_color_bottom,
+            //   ),
+            // ),
           ],
         ),
       ),
