@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:roaster/src/screens/home/pages/scan/scan.page.dart';
 import 'package:roaster/src/screens/home/tabs/roaster/raster.tab.dart';
 import 'package:roaster/src/screens/home/tabs/settings/settings.tab.dart';
-import 'package:roaster/src/state/state.service.dart';
+import 'package:roaster/src/services/state/state.service.dart';
 
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
