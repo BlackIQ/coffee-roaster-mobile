@@ -34,6 +34,9 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(
           brightness: state.getTheme,
           seedColor: state.getThemeColor,
+          background: state.getTheme == Brightness.dark
+              ? Colors.black
+              : Colors.grey[200],
         ),
         useMaterial3: true,
       ),
