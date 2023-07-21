@@ -66,5 +66,37 @@
         "example": "1"
       }
     }  
-  }
+  },
+  "step_title_type": "نوع",
+  "step_title_bean": "نوع قهوه",
+  "step_title_roast": "نوع رست",
+  "step_title_weight": "وزن قهوه",
+  "step_title_size": "سایز قهوه",
+  "step_title_country": "کشور",
+  "step_details_type": "نوع را انتخاب کنید",
+  "step_details_bean": "نوع قهوه را انتخاب کنید",
+  "step_details_roast": "نوع رست را انتخاب کنید",
+  "step_details_weight": "وزن قهوه را انتخاب کنید",
+  "step_details_size": "سایز قهوه را انتخاب کنید",
+  "step_details_ciuntry": "کشور را انتخاب کنید",
+  "step_types_easy": "آسان",
+  "step_types_advanced": "پیشرفته",
+  "step_beans_a": "عربیکا",
+  "step_beans_r": "روبوستا",
+  "step_roast_light": "لایت",
+  "step_roast_medium": "مدیوم",
+  "step_roast_dark": "دارک",
+  "step_size_coarse": "درشت",
+  "step_size_medium": "متوسط",
+  "step_size_tiny": "ریز",
+  "country_vietnam": "ویتنام",
+  "country_brazil": "برزیل",
+  "country_indonesia": "اندونزی",
+  "country_india": "هند",
+  "country_ethiopia": "اتیوپی",
+  "country_columbia": "کلمبیا",
+  "country_guatemala": "گواتمالا",
+  "country_costarica": "کاستاریکا",
+  "country_etc": "غیره",
+  "confirm_continue": "آیا مایل به ادامه هستید؟"
 }

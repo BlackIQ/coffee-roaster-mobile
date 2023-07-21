@@ -66,5 +66,37 @@
         "example": "1"
       }
     }  
-  }
+  },
+  "step_title_type": "Type",
+  "step_title_bean": "Bean",
+  "step_title_roast": "Roast",
+  "step_title_weight": "Weigth",
+  "step_title_size": "Size",
+  "step_title_country": "Country",
+  "step_details_type": "Select type",
+  "step_details_bean": "Select bean",
+  "step_details_roast": "Select roast",
+  "step_details_weight": "Select weight",
+  "step_details_size": "Select size",
+  "step_details_ciuntry": "Select country",
+  "step_types_easy": "Easy",
+  "step_types_advanced": "Advanced",
+  "step_beans_a": "Arabica",
+  "step_beans_r": "Robusta",
+  "step_roast_light": "Light",
+  "step_roast_medium": "Medium",
+  "step_roast_dark": "Dark",
+  "step_size_coarse": "Coarse",
+  "step_size_medium": "Medium",
+  "step_size_tiny": "Tiny",
+  "country_vietnam": "Vietnam",
+  "country_brazil": "Brazil",
+  "country_indonesia": "Indonesia",
+  "country_india": "India",
+  "country_ethiopia": "Ethiopia",
+  "country_columbia": "Columbia",
+  "country_guatemala": "Guatemala",
+  "country_costarica": "Costa Rica",
+  "country_etc": "Etc",
+  "confirm_continue": "Would you like to continue?"
 }

@@ -34,13 +34,13 @@ class _RoasterTabState extends State<RoasterTab> {
     return string;
   }
 
-  void roast(lang) {
+  void roast(data, lang) {
     showDialog(
       context: context,
       barrierDismissible: false,
       builder: (_) => AlertDialog(
         title: Text(
-          "آیا مایل به ادامه هستید؟",
+          lang.confirm_continue,
           style: TextStyle(
             color: Theme.of(context).colorScheme.onBackground,
           ),
@@ -52,39 +52,39 @@ class _RoasterTabState extends State<RoasterTab> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "نوع: ${types[selectedType]}",
+                  "${lang.step_title_type}: ${data['types'][selectedType]}",
                   style: TextStyle(
                     color: Theme.of(context).colorScheme.secondary,
                   ),
                 ),
                 Text(
-                  "نوع قهوه: ${beans[selectedBean]}",
+                  "${lang.step_title_bean}: ${data['beans'][selectedBean]}",
                   style: TextStyle(
                     color: Theme.of(context).colorScheme.secondary,
                   ),
                 ),
                 selectedType == 1
                     ? Text(
-                        "کشور: ${selectedBean == 0 ? countriesA[selectedCountry] : countriesR[selectedCountry]}",
+                        "${lang.step_title_country}: ${selectedBean == 0 ? data['countriesA'][selectedCountry] : data['countriesR'][selectedCountry]}",
                         style: TextStyle(
                           color: Theme.of(context).colorScheme.secondary,
                         ),
                       )
                     : Container(),
                 Text(
-                  "نوع رست: ${roasts[selectedRoast]}",
+                  "${lang.step_title_roast}: ${data['roasts'][selectedRoast]}",
                   style: TextStyle(
                     color: Theme.of(context).colorScheme.secondary,
                   ),
                 ),
                 Text(
-                  "وزن قهوه: ${weights[selectedWeigth]}",
+                  "${lang.step_title_weight}: ${data['weights'][selectedWeigth]}",
                   style: TextStyle(
                     color: Theme.of(context).colorScheme.secondary,
                   ),
                 ),
                 Text(
-                  "سایز قهوه: ${sizes[selectedSize]}",
+                  "${lang.step_title_size}: ${data['sizes'][selectedSize]}",
                   style: TextStyle(
                     color: Theme.of(context).colorScheme.secondary,
                   ),
@@ -116,35 +116,60 @@ class _RoasterTabState extends State<RoasterTab> {
   int _index = 0;
 
   int selectedType = 0;
-  List types = ["اسان", "پیشرفته"];
-
   int selectedBean = 0;
-  List beans = ["عربیکا", "ربوستا"];
-
   int selectedRoast = 0;
-  List roasts = ["لایت", "مدیوم", "دارک"];
-
   int selectedSize = 0;
-  List sizes = ["درشت", "متوسط", "ریز"];
-
   int selectedWeigth = 0;
-  List weights = ["100", "150", "200"];
-
   int selectedCountry = 0;
-  List countriesR = ["ویتنام", "برزیل", "اندونزی", "هند", "غیره"];
-  List countriesA = [
-    "اتیوپی",
-    "کلمبیا",
-    "گواتمالا",
-    "کاستاریکا",
-    "برزیل",
-    "هند",
-    "غیره"
-  ];
 
   @override
   Widget build(BuildContext context) {
     final lang = AppLocalizations.of(context);
+
+    List types = [lang!.step_types_easy, lang.step_types_advanced];
+
+    List beans = [lang.step_beans_a, lang.step_beans_r];
+
+    List roasts = [
+      lang.step_roast_light,
+      lang.step_roast_medium,
+      lang.step_roast_dark
+    ];
+
+    List sizes = [
+      lang.step_size_coarse,
+      lang.step_size_medium,
+      lang.step_size_tiny
+    ];
+
+    List weights = ["100", "150", "200"];
+
+    List countriesR = [
+      lang.country_vietnam,
+      lang.country_brazil,
+      lang.country_indonesia,
+      lang.country_india,
+      lang.country_etc
+    ];
+    List countriesA = [
+      lang.country_ethiopia,
+      lang.country_columbia,
+      lang.country_guatemala,
+      lang.country_costarica,
+      lang.country_brazil,
+      lang.country_india,
+      lang.country_etc
+    ];
+
+    Map data = {
+      "types": types,
+      "beans": beans,
+      "roasts": roasts,
+      "sizes": sizes,
+      "weights": weights,
+      "countriesR": countriesR,
+      "countriesA": countriesA,
+    };
 
     return Stepper(
       currentStep: _index,
@@ -162,7 +187,7 @@ class _RoasterTabState extends State<RoasterTab> {
             _index += 1;
           });
         } else {
-          roast(lang);
+          roast(data, lang);
         }
       },
       onStepTapped: (int index) {
@@ -172,12 +197,12 @@ class _RoasterTabState extends State<RoasterTab> {
       },
       steps: <Step>[
         Step(
-          title: const Text('نوع'),
+          title: Text(lang.step_title_type),
           content: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              const Text("نوع را انتخاب کنید"),
+              Text(lang.step_details_type),
               const SizedBox(height: 10),
               DropdownButtonFormField<int>(
                 decoration: InputDecoration(
@@ -205,12 +230,12 @@ class _RoasterTabState extends State<RoasterTab> {
           isActive: _index == 0,
         ),
         Step(
-          title: const Text('نوع قهوه'),
+          title: Text(lang.step_title_bean),
           content: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              const Text("نوع قهوه را انتخاب کنید"),
+              Text(lang.step_details_bean),
               const SizedBox(height: 10),
               DropdownButtonFormField<int>(
                 decoration: InputDecoration(
@@ -234,9 +259,7 @@ class _RoasterTabState extends State<RoasterTab> {
                 }).toList(),
               ),
               selectedType == 1 ? const SizedBox(height: 20) : Container(),
-              selectedType == 1
-                  ? const Text("کشور را انتخاب کنید")
-                  : Container(),
+              selectedType == 1 ? Text(lang.step_details_ciuntry) : Container(),
               selectedType == 1 ? const SizedBox(height: 10) : Container(),
               selectedType == 1
                   ? DropdownButtonFormField<int>(
@@ -275,12 +298,12 @@ class _RoasterTabState extends State<RoasterTab> {
           isActive: _index == 1,
         ),
         Step(
-          title: const Text('نوع رست'),
+          title: Text(lang.step_title_roast),
           content: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              const Text("نوع رست را انتخاب کنید"),
+              Text(lang.step_details_roast),
               const SizedBox(height: 10),
               DropdownButtonFormField<int>(
                 decoration: InputDecoration(
@@ -308,12 +331,12 @@ class _RoasterTabState extends State<RoasterTab> {
           isActive: _index == 2,
         ),
         Step(
-          title: const Text('وزن قهوه'),
+          title: Text(lang.step_title_weight),
           content: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              const Text("وزن قهوه را انتخاب کنید"),
+              Text(lang.step_details_weight),
               const SizedBox(height: 10),
               DropdownButtonFormField<int>(
                 decoration: InputDecoration(
@@ -341,12 +364,12 @@ class _RoasterTabState extends State<RoasterTab> {
           isActive: _index == 3,
         ),
         Step(
-          title: const Text('سایز قهوه'),
+          title: Text(lang.step_title_size),
           content: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              const Text("سایز قهوه را انتخاب کنید"),
+              Text(lang.step_details_size),
               const SizedBox(height: 10),
               DropdownButtonFormField<int>(
                 decoration: InputDecoration(
