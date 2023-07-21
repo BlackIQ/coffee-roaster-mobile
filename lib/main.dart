@@ -36,7 +36,7 @@ class MyApp extends StatelessWidget {
           seedColor: state.getThemeColor,
           background: state.getTheme == Brightness.dark
               ? Colors.black
-              : Colors.grey[200],
+              : Colors.grey[50],
         ),
         useMaterial3: true,
       ),
