@@ -52,11 +52,25 @@ class _RoasterTabState extends State<RoasterTab> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
+                  "نوع: ${types[selectedType]}",
+                  style: TextStyle(
+                    color: Theme.of(context).colorScheme.secondary,
+                  ),
+                ),
+                Text(
                   "نوع قهوه: ${beans[selectedBean]}",
                   style: TextStyle(
                     color: Theme.of(context).colorScheme.secondary,
                   ),
                 ),
+                selectedType == 1
+                    ? Text(
+                        "کشور: ${selectedBean == 0 ? countriesA[selectedCountry] : countriesR[selectedCountry]}",
+                        style: TextStyle(
+                          color: Theme.of(context).colorScheme.secondary,
+                        ),
+                      )
+                    : Container(),
                 Text(
                   "نوع رست: ${roasts[selectedRoast]}",
                   style: TextStyle(
