@@ -1,11 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:developer';
 
-import 'package:flutter_blue/flutter_blue.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:roaster/src/services/state/state.service.dart';
 
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -26,16 +22,6 @@ class _RoasterTabState extends State<RoasterTab> {
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 
-  BluetoothDevice? connectedDevice;
-
-  void getBle(context) {
-    BluetoothDevice? ble = Provider.of<AppState>(context, listen: true).getBle;
-
-    setState(() {
-      connectedDevice = ble;
-    });
-  }
-
   List<int> stringToHex(String input) {
     List<int> bytes = utf8.encode(input);
 
@@ -48,24 +34,49 @@ class _RoasterTabState extends State<RoasterTab> {
     return string;
   }
 
-  void roast(id, data, lang) {
-    Map bean = data[id];
-    final lang = AppLocalizations.of(context);
-
+  void roast(lang) {
     showDialog(
       context: context,
       barrierDismissible: false,
       builder: (_) => AlertDialog(
         title: Text(
-          lang!.dialog_roast_title(bean['title']),
+          "آیا مایل به ادامه هستید؟",
           style: TextStyle(
             color: Theme.of(context).colorScheme.onBackground,
           ),
         ),
-        content: Text(
-          lang.dialog_roast_content(bean['title'], bean['duration'].toString()),
-          style: TextStyle(
-            color: Theme.of(context).colorScheme.secondary,
+        content: SingleChildScrollView(
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "نوع قهوه: ${beans[selectedBean]}",
+                  style: TextStyle(
+                    color: Theme.of(context).colorScheme.secondary,
+                  ),
+                ),
+                Text(
+                  "نوع رست: ${roasts[selectedRoast]}",
+                  style: TextStyle(
+                    color: Theme.of(context).colorScheme.secondary,
+                  ),
+                ),
+                Text(
+                  "وزن قهوه: ${weights[selectedWeigth]}",
+                  style: TextStyle(
+                    color: Theme.of(context).colorScheme.secondary,
+                  ),
+                ),
+                Text(
+                  "سایز قهوه: ${sizes[selectedSize]}",
+                  style: TextStyle(
+                    color: Theme.of(context).colorScheme.secondary,
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
         actions: [
@@ -78,45 +89,8 @@ class _RoasterTabState extends State<RoasterTab> {
           ),
           TextButton(
             onPressed: () async {
-              if (connectedDevice != null) {
-                Map sendObject = {
-                  "t": 1,
-                  "p": bean['pin'],
-                  "r": bean['relay'],
-                  "d": bean['duration'] * 1000,
-                };
-
-                List<int> sendHex = stringToHex(jsonEncode(sendObject));
-
-                List<BluetoothService>? services =
-                    await connectedDevice?.discoverServices();
-
-                services?.forEach((service) async {
-                  var characteristics = service.characteristics;
-                  for (BluetoothCharacteristic c in characteristics) {
-                    await c.write(sendHex);
-
-                    await c.setNotifyValue(true);
-
-                    c.value.listen((value) {
-                      print("Data ---------");
-                      print(value);
-                      print(value.runtimeType);
-                      print("--------- Data");
-
-                      // print('Received data: ${hexToString(value)}');
-
-                      // if (value == "done") {
-                      //   _showSnackBar(context, "OK");
-                      //   Navigator.pop(context);
-                      // }
-                    });
-                  }
-                });
-              } else {
-                _showSnackBar(context, lang.toast_no_device);
-                Navigator.pop(context);
-              }
+              _showSnackBar(context, lang.toast_no_device);
+              Navigator.pop(context);
             },
             child: Text(lang.dialog_roast_yes),
           ),
@@ -125,71 +99,267 @@ class _RoasterTabState extends State<RoasterTab> {
     );
   }
 
+  int _index = 0;
+
+  int selectedType = 0;
+  List types = ["اسان", "پیشرفته"];
+
+  int selectedBean = 0;
+  List beans = ["عربیکا", "ربوستا"];
+
+  int selectedRoast = 0;
+  List roasts = ["لایت", "مدیوم", "دارک"];
+
+  int selectedSize = 0;
+  List sizes = ["درشت", "متوسط", "ریز"];
+
+  int selectedWeigth = 0;
+  List weights = ["100", "150", "200"];
+
+  int selectedCountry = 0;
+  List countriesR = ["ویتنام", "برزیل", "اندونزی", "هند", "غیره"];
+  List countriesA = [
+    "اتیوپی",
+    "کلمبیا",
+    "گواتمالا",
+    "کاستاریکا",
+    "برزیل",
+    "هند",
+    "غیره"
+  ];
+
   @override
   Widget build(BuildContext context) {
-    getBle(context);
-
     final lang = AppLocalizations.of(context);
 
-    List data = [
-      {
-        'title': lang!.bean_robusta,
-        'duration': 5,
-        'pin': 14,
-        'relay': 1,
+    return Stepper(
+      currentStep: _index,
+      elevation: 10,
+      onStepCancel: () {
+        if (_index > 0) {
+          setState(() {
+            _index -= 1;
+          });
+        }
       },
-      {
-        'title': lang.bean_arabica,
-        'duration': 10,
-        'pin': 12,
-        'relay': 1,
+      onStepContinue: () {
+        if (_index != 4) {
+          setState(() {
+            _index += 1;
+          });
+        } else {
+          roast(lang);
+        }
       },
-    ];
-
-    return ListView.builder(
-      itemCount: data.length,
-      itemBuilder: (BuildContext context, int index) {
-        final entry = data[index];
-
-        String name =
-            entry['title'][0].toUpperCase() + entry['title'].substring(1);
-
-        return ListTile(
-          title: GestureDetector(
-            child: Card(
-              margin: const EdgeInsets.all(5),
-              elevation: 1,
-              child: SizedBox(
-                child: Padding(
-                  padding: const EdgeInsets.all(20),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        name,
-                        style: TextStyle(
-                          color: Theme.of(context).colorScheme.onBackground,
-                          fontSize: 30,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                      const SizedBox(height: 10),
-                      Text(
-                        lang.roast_duration(entry['duration'].toString()),
-                        style: TextStyle(
-                          fontSize: 15,
-                          color: Theme.of(context).colorScheme.secondary,
-                        ),
-                      ),
-                    ],
+      onStepTapped: (int index) {
+        setState(() {
+          _index = index;
+        });
+      },
+      steps: <Step>[
+        Step(
+          title: const Text('نوع'),
+          content: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              const Text("نوع را انتخاب کنید"),
+              const SizedBox(height: 10),
+              DropdownButtonFormField<int>(
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(8.0),
                   ),
                 ),
+                value: selectedType,
+                onChanged: (int? value) {
+                  setState(() {
+                    selectedType = value ?? 1;
+                  });
+                },
+                items: types.asMap().entries.map((entry) {
+                  int index = entry.key;
+                  String type = entry.value;
+                  return DropdownMenuItem<int>(
+                    value: index,
+                    child: Text(type),
+                  );
+                }).toList(),
               ),
-            ),
-            onTap: () => roast(index, data, lang),
+            ],
           ),
-        );
-      },
+          isActive: _index == 0,
+        ),
+        Step(
+          title: const Text('نوع قهوه'),
+          content: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              const Text("نوع قهوه را انتخاب کنید"),
+              const SizedBox(height: 10),
+              DropdownButtonFormField<int>(
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(8.0),
+                  ),
+                ),
+                value: selectedBean,
+                onChanged: (int? value) {
+                  setState(() {
+                    selectedBean = value ?? 1;
+                  });
+                },
+                items: beans.asMap().entries.map((entry) {
+                  int index = entry.key;
+                  String bean = entry.value;
+                  return DropdownMenuItem<int>(
+                    value: index,
+                    child: Text(bean),
+                  );
+                }).toList(),
+              ),
+              selectedType == 1 ? const SizedBox(height: 20) : Container(),
+              selectedType == 1
+                  ? const Text("کشور را انتخاب کنید")
+                  : Container(),
+              selectedType == 1 ? const SizedBox(height: 10) : Container(),
+              selectedType == 1
+                  ? DropdownButtonFormField<int>(
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8.0),
+                        ),
+                      ),
+                      value: selectedCountry,
+                      onChanged: (int? value) {
+                        setState(() {
+                          selectedCountry = value ?? 1;
+                        });
+                      },
+                      items: selectedBean == 0
+                          ? countriesA.asMap().entries.map((entry) {
+                              int index = entry.key;
+                              String country = entry.value;
+                              return DropdownMenuItem<int>(
+                                value: index,
+                                child: Text(country),
+                              );
+                            }).toList()
+                          : countriesR.asMap().entries.map((entry) {
+                              int index = entry.key;
+                              String country = entry.value;
+                              return DropdownMenuItem<int>(
+                                value: index,
+                                child: Text(country),
+                              );
+                            }).toList(),
+                    )
+                  : Container(),
+            ],
+          ),
+          isActive: _index == 1,
+        ),
+        Step(
+          title: const Text('نوع رست'),
+          content: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              const Text("نوع رست را انتخاب کنید"),
+              const SizedBox(height: 10),
+              DropdownButtonFormField<int>(
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(8.0),
+                  ),
+                ),
+                value: selectedRoast,
+                onChanged: (int? value) {
+                  setState(() {
+                    selectedRoast = value ?? 1;
+                  });
+                },
+                items: roasts.asMap().entries.map((entry) {
+                  int index = entry.key;
+                  String roast = entry.value;
+                  return DropdownMenuItem<int>(
+                    value: index,
+                    child: Text(roast),
+                  );
+                }).toList(),
+              ),
+            ],
+          ),
+          isActive: _index == 2,
+        ),
+        Step(
+          title: const Text('وزن قهوه'),
+          content: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              const Text("وزن قهوه را انتخاب کنید"),
+              const SizedBox(height: 10),
+              DropdownButtonFormField<int>(
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(8.0),
+                  ),
+                ),
+                value: selectedWeigth,
+                onChanged: (int? value) {
+                  setState(() {
+                    selectedWeigth = value ?? 1;
+                  });
+                },
+                items: weights.asMap().entries.map((entry) {
+                  int index = entry.key;
+                  String weight = entry.value;
+                  return DropdownMenuItem<int>(
+                    value: index,
+                    child: Text(weight),
+                  );
+                }).toList(),
+              ),
+            ],
+          ),
+          isActive: _index == 3,
+        ),
+        Step(
+          title: const Text('سایز قهوه'),
+          content: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              const Text("سایز قهوه را انتخاب کنید"),
+              const SizedBox(height: 10),
+              DropdownButtonFormField<int>(
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(8.0),
+                  ),
+                ),
+                value: selectedSize,
+                onChanged: (int? value) {
+                  setState(() {
+                    selectedSize = value ?? 1;
+                  });
+                },
+                items: sizes.asMap().entries.map((entry) {
+                  int index = entry.key;
+                  String size = entry.value;
+                  return DropdownMenuItem<int>(
+                    value: index,
+                    child: Text(size),
+                  );
+                }).toList(),
+              ),
+            ],
+          ),
+          isActive: _index == 4,
+        ),
+      ],
     );
   }
 }
