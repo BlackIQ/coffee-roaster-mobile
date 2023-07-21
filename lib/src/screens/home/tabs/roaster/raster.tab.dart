@@ -2,6 +2,10 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:flutter_blue/flutter_blue.dart';
+
+import 'package:roaster/src/services/state/state.service.dart';
 
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -32,6 +36,16 @@ class _RoasterTabState extends State<RoasterTab> {
     String string = utf8.decode(input);
 
     return string;
+  }
+
+  BluetoothDevice? connectedDevice;
+
+  void getBle(context) {
+    BluetoothDevice? ble = Provider.of<AppState>(context, listen: true).getBle;
+
+    setState(() {
+      connectedDevice = ble;
+    });
   }
 
   void roast(data, lang) {
@@ -103,8 +117,45 @@ class _RoasterTabState extends State<RoasterTab> {
           ),
           TextButton(
             onPressed: () async {
-              _showSnackBar(context, lang.toast_no_device);
-              Navigator.pop(context);
+              if (connectedDevice != null) {
+                Map sendObject = {
+                  "t": 1,
+                  "p": 1,
+                  "r": 1,
+                  "d": 10 * 1000,
+                };
+
+                List<int> sendHex = stringToHex(jsonEncode(sendObject));
+
+                List<BluetoothService>? services =
+                    await connectedDevice?.discoverServices();
+
+                services?.forEach((service) async {
+                  var characteristics = service.characteristics;
+                  for (BluetoothCharacteristic c in characteristics) {
+                    await c.write(sendHex);
+
+                    await c.setNotifyValue(true);
+
+                    c.value.listen((value) {
+                      print("Data ---------");
+                      print(value);
+                      print(value.runtimeType);
+                      print("--------- Data");
+
+                      // print('Received data: ${hexToString(value)}');
+
+                      // if (value == "done") {
+                      //   _showSnackBar(context, "OK");
+                      //   Navigator.pop(context);
+                      // }
+                    });
+                  }
+                });
+              } else {
+                _showSnackBar(context, lang.toast_no_device);
+                Navigator.pop(context);
+              }
             },
             child: Text(lang.dialog_roast_yes),
           ),
@@ -124,6 +175,8 @@ class _RoasterTabState extends State<RoasterTab> {
 
   @override
   Widget build(BuildContext context) {
+    getBle(context);
+
     final lang = AppLocalizations.of(context);
 
     List types = [lang!.step_types_easy, lang.step_types_advanced];
