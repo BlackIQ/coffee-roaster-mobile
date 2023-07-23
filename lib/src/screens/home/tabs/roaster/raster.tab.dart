@@ -142,8 +142,6 @@ class _RoasterTabState extends State<RoasterTab> {
                     await c.setNotifyValue(true);
 
                     c.value.listen((value) {
-                      print("Data ---------");
-
                       if (value.runtimeType.toString() == "Uint8List") {
                         String response = hexToString(value);
 
@@ -152,8 +150,6 @@ class _RoasterTabState extends State<RoasterTab> {
                           _showSnackBar(context, "OK");
                         }
                       }
-
-                      print("--------- Data");
                     });
                   }
                 });
