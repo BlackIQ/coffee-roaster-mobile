@@ -136,6 +136,7 @@ class _RoasterTabState extends State<RoasterTab> {
 
                 services?.forEach((service) async {
                   var characteristics = service.characteristics;
+
                   for (BluetoothCharacteristic c in characteristics) {
                     await c.write(sendHex);
 
@@ -145,9 +146,10 @@ class _RoasterTabState extends State<RoasterTab> {
                       if (value.runtimeType.toString() == "Uint8List") {
                         String response = hexToString(value);
 
+                        _showSnackBar(context, response);
+
                         if (response == "done") {
                           Navigator.pop(context);
-                          _showSnackBar(context, "OK");
                         }
                       }
                     });
