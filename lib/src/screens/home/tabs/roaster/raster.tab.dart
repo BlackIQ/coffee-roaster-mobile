@@ -118,11 +118,15 @@ class _RoasterTabState extends State<RoasterTab> {
           TextButton(
             onPressed: () async {
               if (connectedDevice != null) {
+                // Map sendObject = {
+                //   "t": 1,
+                //   "p": 1,
+                //   "r": 1,
+                //   "d": 10 * 1000,
+                // };
+
                 Map sendObject = {
-                  "t": 1,
-                  "p": 1,
-                  "r": 1,
-                  "d": 10 * 1000,
+                  "a": 1,
                 };
 
                 List<int> sendHex = stringToHex(jsonEncode(sendObject));
@@ -139,16 +143,17 @@ class _RoasterTabState extends State<RoasterTab> {
 
                     c.value.listen((value) {
                       print("Data ---------");
-                      print(value);
-                      print(value.runtimeType);
+
+                      if (value.runtimeType.toString() == "Uint8List") {
+                        String response = hexToString(value);
+
+                        if (response == "done") {
+                          Navigator.pop(context);
+                          _showSnackBar(context, "OK");
+                        }
+                      }
+
                       print("--------- Data");
-
-                      // print('Received data: ${hexToString(value)}');
-
-                      // if (value == "done") {
-                      //   _showSnackBar(context, "OK");
-                      //   Navigator.pop(context);
-                      // }
                     });
                   }
                 });
