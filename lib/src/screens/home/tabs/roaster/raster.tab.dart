@@ -64,6 +64,7 @@ class _RoasterTabState extends State<RoasterTab> {
     int stepTwo = stepOne + sizeTime ~/ 10;
     int stepThree = stepTwo + beanTime ~/ 10;
     int stepFour = stepThree + roastTime ~/ 10;
+    int stepFive = 900 - (weightTime + sizeTime + beanTime + roastTime);
 
     showDialog(
       context: context,
@@ -166,25 +167,17 @@ class _RoasterTabState extends State<RoasterTab> {
           ),
           TextButton(
             onPressed: () async {
+              Map sendObject = {
+                "1": weightTime * 100,
+                "2": sizeTime * 100,
+                "3": beanTime * 100,
+                "4": roastTime * 100,
+                "5": stepFive * 100,
+              };
+
+              print(sendObject);
+
               if (connectedDevice != null) {
-                // Map sendObject = {
-                //   "1": 5000,
-                //   "2": 5000,
-                //   "3": 5000,
-                //   "4": 5000,
-                // };
-
-                Map sendObject = {
-                  "1": weightTime * 100,
-                  "2": sizeTime * 100,
-                  "3": beanTime * 100,
-                  "4": roastTime * 100,
-                  "5": 90000 -
-                      (weightTime + sizeTime + beanTime + roastTime) * 100,
-                };
-
-                print(sendObject);
-
                 List<int> sendHex = stringToHex(jsonEncode(sendObject));
 
                 List<BluetoothService>? services =
