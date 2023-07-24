@@ -98,5 +98,6 @@
   "country_guatemala": "Guatemala",
   "country_costarica": "Costa Rica",
   "country_etc": "Etc",
-  "confirm_continue": "Would you like to continue?"
+  "confirm_continue": "Would you like to continue?",
+  "step_trns": "Step"
 }
