@@ -121,38 +121,38 @@ class _RoasterTabState extends State<RoasterTab> {
                     color: Theme.of(context).colorScheme.secondary,
                   ),
                 ),
-                const Divider(),
-                // Steps
-                Text(
-                  "${lang.step_trns} 1: 0 -> $stepOne",
-                  style: TextStyle(
-                    color: Theme.of(context).colorScheme.secondary,
-                  ),
-                ),
-                Text(
-                  "${lang.step_trns} 2: $stepOne -> $stepTwo",
-                  style: TextStyle(
-                    color: Theme.of(context).colorScheme.secondary,
-                  ),
-                ),
-                Text(
-                  "${lang.step_trns} 3: $stepTwo -> $stepThree",
-                  style: TextStyle(
-                    color: Theme.of(context).colorScheme.secondary,
-                  ),
-                ),
-                Text(
-                  "${lang.step_trns} 4: $stepThree -> $stepFour",
-                  style: TextStyle(
-                    color: Theme.of(context).colorScheme.secondary,
-                  ),
-                ),
-                Text(
-                  "${lang.step_trns} 5: $stepFour -> 900",
-                  style: TextStyle(
-                    color: Theme.of(context).colorScheme.secondary,
-                  ),
-                ),
+                // const Divider(),
+                // // Steps
+                // Text(
+                //   "${lang.step_trns} 1: 0 -> $stepOne",
+                //   style: TextStyle(
+                //     color: Theme.of(context).colorScheme.secondary,
+                //   ),
+                // ),
+                // Text(
+                //   "${lang.step_trns} 2: $stepOne -> $stepTwo",
+                //   style: TextStyle(
+                //     color: Theme.of(context).colorScheme.secondary,
+                //   ),
+                // ),
+                // Text(
+                //   "${lang.step_trns} 3: $stepTwo -> $stepThree",
+                //   style: TextStyle(
+                //     color: Theme.of(context).colorScheme.secondary,
+                //   ),
+                // ),
+                // Text(
+                //   "${lang.step_trns} 4: $stepThree -> $stepFour",
+                //   style: TextStyle(
+                //     color: Theme.of(context).colorScheme.secondary,
+                //   ),
+                // ),
+                // Text(
+                //   "${lang.step_trns} 5: $stepFour -> 900",
+                //   style: TextStyle(
+                //     color: Theme.of(context).colorScheme.secondary,
+                //   ),
+                // ),
               ],
             ),
           ),
@@ -168,38 +168,48 @@ class _RoasterTabState extends State<RoasterTab> {
           TextButton(
             onPressed: () async {
               Map sendObject = {
-                "1": weightTime * 100,
-                "2": sizeTime * 100,
-                "3": beanTime * 100,
-                "4": roastTime * 100,
-                "5": stepFive * 100,
+                "1": weightTime ~/ 10,
+                "2": sizeTime ~/ 10,
+                "3": beanTime ~/ 10,
+                "4": roastTime ~/ 10,
+                "5": stepFive ~/ 10,
               };
 
-              print(sendObject);
-
               if (connectedDevice != null) {
-                List<int> sendHex = stringToHex(jsonEncode(sendObject));
+                try {
+                  List<int> sendHex = stringToHex(jsonEncode(sendObject));
 
-                List<BluetoothService>? services =
-                    await connectedDevice?.discoverServices();
+                  List<BluetoothService>? services =
+                      await connectedDevice?.discoverServices();
 
-                services?.forEach((service) async {
-                  var characteristic = service.characteristics.first;
+                  services?.forEach((service) async {
+                    var characteristic = service.characteristics.first;
 
-                  await characteristic.write(sendHex);
+                    await characteristic.write(sendHex);
 
-                  characteristic.setNotifyValue(true);
+                    characteristic.setNotifyValue(true);
 
-                  var subscription = characteristic.value.listen((value) {
-                    if (value.runtimeType.toString() == "Uint8List") {
-                      String response = hexToString(value);
+                    characteristic.value.listen((value) {
+                      if (value.runtimeType.toString() == "Uint8List") {
+                        String response = hexToString(value);
 
-                      _showSnackBar(context, response);
-                    }
+                        _showSnackBar(context, response);
+                      }
+                    });
+
+                    // var subscription = characteristic.value.listen((value) {
+                    //   if (value.runtimeType.toString() == "Uint8List") {
+                    //     String response = hexToString(value);
+
+                    //     _showSnackBar(context, response);
+                    //   }
+                    // });
+
+                    // subscription.cancel();
                   });
-
-                  subscription.cancel();
-                });
+                } catch (e) {
+                  _showSnackBar(context, e.toString());
+                }
               } else {
                 _showSnackBar(context, lang.toast_no_device);
                 Navigator.pop(context);
