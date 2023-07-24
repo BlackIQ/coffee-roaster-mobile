@@ -168,7 +168,10 @@ class _RoasterTabState extends State<RoasterTab> {
             onPressed: () async {
               if (connectedDevice != null) {
                 Map sendObject = {
-                  "a": 1,
+                  "t1": stepOne,
+                  "t2": stepTwo,
+                  "t3": stepThree,
+                  "t4": stepFour,
                 };
 
                 List<int> sendHex = stringToHex(jsonEncode(sendObject));
