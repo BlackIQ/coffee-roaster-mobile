@@ -60,10 +60,10 @@ class _RoasterTabState extends State<RoasterTab> {
     int beanTime = data['beans'][selectedBean]['seconds'];
     int roastTime = data['roasts'][selectedRoast]['seconds'];
 
-    int stepOne = weightTime;
-    int stepTwo = stepOne + sizeTime;
-    int stepThree = stepTwo + beanTime;
-    int stepFour = stepThree + roastTime;
+    int stepOne = weightTime ~/ 10;
+    int stepTwo = stepOne + sizeTime ~/ 10;
+    int stepThree = stepTwo + beanTime ~/ 10;
+    int stepFour = stepThree + roastTime ~/ 10;
 
     showDialog(
       context: context,
@@ -167,12 +167,23 @@ class _RoasterTabState extends State<RoasterTab> {
           TextButton(
             onPressed: () async {
               if (connectedDevice != null) {
+                // Map sendObject = {
+                //   "1": 5000,
+                //   "2": 5000,
+                //   "3": 5000,
+                //   "4": 5000,
+                // };
+
                 Map sendObject = {
-                  "t1": stepOne,
-                  "t2": stepTwo,
-                  "t3": stepThree,
-                  "t4": stepFour,
+                  "1": weightTime * 100,
+                  "2": sizeTime * 100,
+                  "3": beanTime * 100,
+                  "4": roastTime * 100,
+                  "5": 90000 -
+                      (weightTime + sizeTime + beanTime + roastTime) * 100,
                 };
+
+                print(sendObject);
 
                 List<int> sendHex = stringToHex(jsonEncode(sendObject));
 
