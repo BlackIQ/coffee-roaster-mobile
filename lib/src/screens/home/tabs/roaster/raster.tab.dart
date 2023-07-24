@@ -345,7 +345,6 @@ class _RoasterTabState extends State<RoasterTab> {
                 ),
                 value: selectedBean,
                 onChanged: (int? value) {
-                  print(value);
                   setState(() {
                     selectedBean = value ?? 1;
                   });
