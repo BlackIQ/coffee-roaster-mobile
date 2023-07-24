@@ -49,6 +49,22 @@ class _RoasterTabState extends State<RoasterTab> {
   }
 
   void roast(data, lang) {
+    String type = data['types'][selectedType];
+    Map bean = data['beans'][selectedBean];
+    Map size = data['sizes'][selectedSize];
+    Map roast = data['roasts'][selectedRoast];
+    Map weight = data['weights'][selectedWeigth];
+
+    int weightTime = data['weights'][selectedWeigth]['seconds'];
+    int sizeTime = data['sizes'][selectedSize]['seconds'];
+    int beanTime = data['beans'][selectedBean]['seconds'];
+    int roastTime = data['roasts'][selectedRoast]['seconds'];
+
+    int stepOne = weightTime;
+    int stepTwo = stepOne + sizeTime;
+    int stepThree = stepTwo + beanTime;
+    int stepFour = stepThree + roastTime;
+
     showDialog(
       context: context,
       barrierDismissible: false,
@@ -65,14 +81,15 @@ class _RoasterTabState extends State<RoasterTab> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                // Information
                 Text(
-                  "${lang.step_title_type}: ${data['types'][selectedType]}",
+                  "${lang.step_title_type}: $type",
                   style: TextStyle(
                     color: Theme.of(context).colorScheme.secondary,
                   ),
                 ),
                 Text(
-                  "${lang.step_title_bean}: ${data['beans'][selectedBean]}",
+                  "${lang.step_title_bean}: ${bean['label']}",
                   style: TextStyle(
                     color: Theme.of(context).colorScheme.secondary,
                   ),
@@ -86,19 +103,51 @@ class _RoasterTabState extends State<RoasterTab> {
                       )
                     : Container(),
                 Text(
-                  "${lang.step_title_roast}: ${data['roasts'][selectedRoast]}",
+                  "${lang.step_title_roast}: ${roast['label']}",
                   style: TextStyle(
                     color: Theme.of(context).colorScheme.secondary,
                   ),
                 ),
                 Text(
-                  "${lang.step_title_weight}: ${data['weights'][selectedWeigth]}",
+                  "${lang.step_title_weight}: ${weight['label']}",
                   style: TextStyle(
                     color: Theme.of(context).colorScheme.secondary,
                   ),
                 ),
                 Text(
-                  "${lang.step_title_size}: ${data['sizes'][selectedSize]}",
+                  "${lang.step_title_size}: ${size['label']}",
+                  style: TextStyle(
+                    color: Theme.of(context).colorScheme.secondary,
+                  ),
+                ),
+                const Divider(),
+                // Steps
+                Text(
+                  "${lang.step_trns} 1: 0 -> $stepOne",
+                  style: TextStyle(
+                    color: Theme.of(context).colorScheme.secondary,
+                  ),
+                ),
+                Text(
+                  "${lang.step_trns} 2: $stepOne -> $stepTwo",
+                  style: TextStyle(
+                    color: Theme.of(context).colorScheme.secondary,
+                  ),
+                ),
+                Text(
+                  "${lang.step_trns} 3: $stepTwo -> $stepThree",
+                  style: TextStyle(
+                    color: Theme.of(context).colorScheme.secondary,
+                  ),
+                ),
+                Text(
+                  "${lang.step_trns} 4: $stepThree -> $stepFour",
+                  style: TextStyle(
+                    color: Theme.of(context).colorScheme.secondary,
+                  ),
+                ),
+                Text(
+                  "${lang.step_trns} 5: $stepFour -> 900",
                   style: TextStyle(
                     color: Theme.of(context).colorScheme.secondary,
                   ),
@@ -118,13 +167,6 @@ class _RoasterTabState extends State<RoasterTab> {
           TextButton(
             onPressed: () async {
               if (connectedDevice != null) {
-                // Map sendObject = {
-                //   "t": 1,
-                //   "p": 1,
-                //   "r": 1,
-                //   "d": 10 * 1000,
-                // };
-
                 Map sendObject = {
                   "a": 1,
                 };
@@ -135,25 +177,21 @@ class _RoasterTabState extends State<RoasterTab> {
                     await connectedDevice?.discoverServices();
 
                 services?.forEach((service) async {
-                  var characteristics = service.characteristics;
+                  var characteristic = service.characteristics.first;
 
-                  for (BluetoothCharacteristic c in characteristics) {
-                    await c.write(sendHex);
+                  await characteristic.write(sendHex);
 
-                    await c.setNotifyValue(true);
+                  characteristic.setNotifyValue(true);
 
-                    c.value.listen((value) {
-                      if (value.runtimeType.toString() == "Uint8List") {
-                        String response = hexToString(value);
+                  var subscription = characteristic.value.listen((value) {
+                    if (value.runtimeType.toString() == "Uint8List") {
+                      String response = hexToString(value);
 
-                        _showSnackBar(context, response);
+                      _showSnackBar(context, response);
+                    }
+                  });
 
-                        if (response == "done") {
-                          Navigator.pop(context);
-                        }
-                      }
-                    });
-                  }
+                  subscription.cancel();
                 });
               } else {
                 _showSnackBar(context, lang.toast_no_device);
@@ -176,7 +214,6 @@ class _RoasterTabState extends State<RoasterTab> {
   int selectedWeigth = 0;
   int selectedCountry = 0;
 
-  @override
   Widget build(BuildContext context) {
     getBle(context);
 
@@ -184,21 +221,28 @@ class _RoasterTabState extends State<RoasterTab> {
 
     List types = [lang!.step_types_easy, lang.step_types_advanced];
 
-    List beans = [lang.step_beans_a, lang.step_beans_r];
+    List beans = [
+      {'label': lang.step_beans_a, 'seconds': 420},
+      {'label': lang.step_beans_r, 'seconds': 330},
+    ];
 
     List roasts = [
-      lang.step_roast_light,
-      lang.step_roast_medium,
-      lang.step_roast_dark
+      {'label': lang.step_roast_light, 'seconds': 50},
+      {'label': lang.step_roast_medium, 'seconds': 60},
+      {'label': lang.step_roast_dark, 'seconds': 80},
     ];
 
     List sizes = [
-      lang.step_size_coarse,
-      lang.step_size_medium,
-      lang.step_size_tiny
+      {'label': lang.step_size_coarse, 'seconds': 70},
+      {'label': lang.step_size_medium, 'seconds': 50},
+      {'label': lang.step_size_tiny, 'seconds': 30},
     ];
 
-    List weights = ["100", "150", "200"];
+    List weights = [
+      {'label': '100', 'seconds': 90},
+      {'label': '150', 'seconds': 150},
+      {'label': '200', 'seconds': 240},
+    ];
 
     List countriesR = [
       lang.country_vietnam,
@@ -301,16 +345,16 @@ class _RoasterTabState extends State<RoasterTab> {
                 ),
                 value: selectedBean,
                 onChanged: (int? value) {
+                  print(value);
                   setState(() {
                     selectedBean = value ?? 1;
                   });
                 },
-                items: beans.asMap().entries.map((entry) {
-                  int index = entry.key;
-                  String bean = entry.value;
+                items: beans.map<DropdownMenuItem<int>>((item) {
+                  int index = beans.indexOf(item);
                   return DropdownMenuItem<int>(
                     value: index,
-                    child: Text(bean),
+                    child: Text(item['label']),
                   );
                 }).toList(),
               ),
@@ -373,12 +417,11 @@ class _RoasterTabState extends State<RoasterTab> {
                     selectedRoast = value ?? 1;
                   });
                 },
-                items: roasts.asMap().entries.map((entry) {
-                  int index = entry.key;
-                  String roast = entry.value;
+                items: roasts.map<DropdownMenuItem<int>>((item) {
+                  int index = roasts.indexOf(item);
                   return DropdownMenuItem<int>(
                     value: index,
-                    child: Text(roast),
+                    child: Text(item['label']),
                   );
                 }).toList(),
               ),
@@ -406,12 +449,11 @@ class _RoasterTabState extends State<RoasterTab> {
                     selectedWeigth = value ?? 1;
                   });
                 },
-                items: weights.asMap().entries.map((entry) {
-                  int index = entry.key;
-                  String weight = entry.value;
+                items: weights.map<DropdownMenuItem<int>>((item) {
+                  int index = weights.indexOf(item);
                   return DropdownMenuItem<int>(
                     value: index,
-                    child: Text(weight),
+                    child: Text(item['label']),
                   );
                 }).toList(),
               ),
@@ -439,12 +481,11 @@ class _RoasterTabState extends State<RoasterTab> {
                     selectedSize = value ?? 1;
                   });
                 },
-                items: sizes.asMap().entries.map((entry) {
-                  int index = entry.key;
-                  String size = entry.value;
+                items: sizes.map<DropdownMenuItem<int>>((item) {
+                  int index = sizes.indexOf(item);
                   return DropdownMenuItem<int>(
                     value: index,
-                    child: Text(size),
+                    child: Text(item['label']),
                   );
                 }).toList(),
               ),
