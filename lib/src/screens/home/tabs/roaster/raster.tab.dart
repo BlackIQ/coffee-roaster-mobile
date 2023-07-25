@@ -48,6 +48,16 @@ class _RoasterTabState extends State<RoasterTab> {
     });
   }
 
+  int calculateDoneTime(int selectedWeight) {
+    const Map<int, int> weightToTime = {
+      0: 750,
+      1: 850,
+      2: 900,
+    };
+  
+    return weightToTime[selectedWeight] ?? 0;
+  }
+
   void roast(data, lang) {
     String type = data['types'][selectedType];
     Map bean = data['beans'][selectedBean];
@@ -60,11 +70,13 @@ class _RoasterTabState extends State<RoasterTab> {
     int beanTime = data['beans'][selectedBean]['seconds'];
     int roastTime = data['roasts'][selectedRoast]['seconds'];
 
+    int doneTime = calculateDoneTime(selectedWeigth);
+
     int stepOne = weightTime ~/ 10;
     int stepTwo = stepOne + sizeTime ~/ 10;
     int stepThree = stepTwo + beanTime ~/ 10;
     int stepFour = stepThree + roastTime ~/ 10;
-    int stepFive = 900 - (weightTime + sizeTime + beanTime + roastTime);
+    int stepFive = doneTime - (weightTime + sizeTime + beanTime + roastTime);
 
     showDialog(
       context: context,
