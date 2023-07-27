@@ -54,7 +54,7 @@ class _RoasterTabState extends State<RoasterTab> {
       1: 850,
       2: 900,
     };
-  
+
     return weightToTime[selectedWeight] ?? 0;
   }
 
@@ -72,10 +72,10 @@ class _RoasterTabState extends State<RoasterTab> {
 
     int doneTime = calculateDoneTime(selectedWeigth);
 
-    int stepOne = weightTime ~/ 10;
-    int stepTwo = stepOne + sizeTime ~/ 10;
-    int stepThree = stepTwo + beanTime ~/ 10;
-    int stepFour = stepThree + roastTime ~/ 10;
+    // int stepOne = weightTime ~/ 10;
+    // int stepTwo = stepOne + sizeTime ~/ 10;
+    // int stepThree = stepTwo + beanTime ~/ 10;
+    // int stepFour = stepThree + roastTime ~/ 10;
     int stepFive = doneTime - (weightTime + sizeTime + beanTime + roastTime);
 
     showDialog(
@@ -179,7 +179,7 @@ class _RoasterTabState extends State<RoasterTab> {
           ),
           TextButton(
             onPressed: () async {
-              Map sendObject = {
+              Map<String, int> sendObject = {
                 "1": weightTime ~/ 10,
                 "2": sizeTime ~/ 10,
                 "3": beanTime ~/ 10,
@@ -243,6 +243,7 @@ class _RoasterTabState extends State<RoasterTab> {
   int selectedWeigth = 0;
   int selectedCountry = 0;
 
+  @override
   Widget build(BuildContext context) {
     getBle(context);
 
