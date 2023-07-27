@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:roaster/src/services/state/state.service.dart';
+
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AuthScreen extends StatefulWidget {
   const AuthScreen({super.key});
@@ -23,59 +26,114 @@ class _AuthScreenState extends State<AuthScreen> {
   final TextEditingController _password = TextEditingController();
 
   void login() {
-    if (_username.text == 'amir') {
-      if (_password.text == '200300') {
-        Provider.of<AppState>(context, listen: false).setAuthenticated(true);
-      } else {
-        _showSnackBar(context, 'Wrong password');
-      }
+    if (_username.text == 'amir' && _password.text == '200300') {
+      Provider.of<AppState>(context, listen: false).setAuthenticated(true);
     } else {
-      _showSnackBar(context, 'User not found');
+      _showSnackBar(context, 'Wrong username or pasword password');
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    Locale locale = Provider.of<AppState>(context, listen: true).getLocale;
+
+    final lang = AppLocalizations.of(context);
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: const Text("Login to your account"),
+        title: Text(lang!.login_title),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(10),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            TextField(
-              controller: _username,
-              decoration: const InputDecoration(
-                border: OutlineInputBorder(),
-                label: Text("Username"),
-                hintText: "Enter your username",
-              ),
-            ),
-            const SizedBox(height: 10),
-            TextField(
-                controller: _password,
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
-                  label: Text("Password"),
-                  hintText: "Enter your password",
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              const Center(
+                child: Text(
+                  "☕️",
+                  style: TextStyle(
+                    fontSize: 75,
+                  ),
                 ),
-                obscureText: true),
-            const SizedBox(height: 10),
-            SizedBox(
-              height: 50,
-              child: ElevatedButton(
+              ),
+              Center(
+                child: Text(
+                  lang.app_title,
+                  style: TextStyle(
+                    fontSize: 40,
+                    fontWeight: FontWeight.bold,
+                    color: Theme.of(context).colorScheme.primary,
+                  ),
+                ),
+              ),
+              const SizedBox(height: 20),
+              TextField(
+                controller: _username,
+                decoration: InputDecoration(
+                  border: const OutlineInputBorder(),
+                  labelText: lang.username_label,
+                  hintText: lang.username_placeholder,
+                ),
+              ),
+              const SizedBox(height: 10),
+              TextField(
+                controller: _password,
+                decoration: InputDecoration(
+                  border: const OutlineInputBorder(),
+                  labelText: lang.password_label,
+                  hintText: lang.password_placeholder,
+                ),
+                obscureText: true,
+              ),
+              const SizedBox(height: 20),
+              ElevatedButton(
                 onPressed: login,
                 style: ElevatedButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(vertical: 16),
                   backgroundColor: Theme.of(context).colorScheme.inversePrimary,
                 ),
-                child: const Text("Login"),
+                child: Text(lang.button_login),
               ),
-            )
-          ],
+              const SizedBox(height: 10),
+              TextButton(
+                onPressed: login,
+                style: TextButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(vertical: 16),
+                ),
+                child: Text(lang.button_guest),
+              ),
+              const SizedBox(height: 40),
+              DropdownButtonFormField<Locale>(
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(8.0),
+                  ),
+                ),
+                style: GoogleFonts.vazirmatn(
+                  color: Theme.of(context).colorScheme.onBackground,
+                ),
+                isExpanded: true,
+                value: locale,
+                onChanged: (value) {
+                  Provider.of<AppState>(context, listen: false).setLocale(
+                    Locale(value.toString(), ''),
+                  );
+                },
+                items: const [
+                  DropdownMenuItem<Locale>(
+                    value: Locale('en', ''),
+                    child: Text('English'),
+                  ),
+                  DropdownMenuItem<Locale>(
+                    value: Locale('fa', ''),
+                    child: Text('فارسی'),
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );
