@@ -30,7 +30,9 @@ class MyApp extends StatelessWidget {
       title: 'Roaster Application',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        textTheme: GoogleFonts.vazirmatnTextTheme(),
+        textTheme: isPersian
+            ? GoogleFonts.vazirmatnTextTheme()
+            : GoogleFonts.openSansTextTheme(),
         colorScheme: ColorScheme.fromSeed(
           brightness: state.getTheme,
           seedColor: state.getThemeColor,
