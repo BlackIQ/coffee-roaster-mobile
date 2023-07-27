@@ -34,10 +34,12 @@ flutter_launcher_icons:
   android: "launcher_icon"
   ios: true
   image_path: "assets/icon/favicon.jpg"
-  min_sdk_android: 21 # android min sdk min:16, default 21
   web:
+    image_path: "assets/icon/favicon.jpg"
     generate: true
   windows:
+    image_path: "assets/icon/favicon.jpg"
     generate: true
   macos:
+    image_path: "assets/icon/favicon.jpg"
     generate: true
