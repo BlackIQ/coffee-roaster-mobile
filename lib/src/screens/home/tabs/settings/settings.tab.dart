@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:roaster/src/screens/home/pages/settings/language.page.dart';
 
+import 'package:provider/provider.dart';
+import 'package:roaster/src/services/state/state.service.dart';
+
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:roaster/src/screens/home/pages/settings/theme.page.dart';
 
@@ -18,12 +21,39 @@ class _SettingsTabState extends State<SettingsTab> {
 
     List settings = [
       {
-        'title': lang!.tab_settings_lang,
-        'page': const LanguageSettings(),
+        'title': lang!.tab_settings_profile,
+        'color': Theme.of(context).colorScheme.primary,
+        'icon': Icons.person,
+        'onTab': () => print("Hello!"),
+      },
+      {
+        'title': lang.tab_settings_lang,
+        'color': Theme.of(context).colorScheme.primary,
+        'icon': Icons.language,
+        'onTab': () => Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const LanguageSettings(),
+              ),
+            ),
       },
       {
         'title': lang.tab_settings_theme,
-        'page': const ThemeSettings(),
+        'color': Theme.of(context).colorScheme.primary,
+        'icon': Icons.brush,
+        'onTab': () => Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const ThemeSettings(),
+              ),
+            ),
+      },
+      {
+        'title': lang.tab_settings_logout,
+        'color': Theme.of(context).colorScheme.error,
+        'icon': Icons.logout,
+        'onTab': () => Provider.of<AppState>(context, listen: false)
+            .setAuthenticated(false),
       },
     ];
 
@@ -46,6 +76,7 @@ class _SettingsTabState extends State<SettingsTab> {
             color: Theme.of(context).colorScheme.onBackground,
           ),
         ),
+        const SizedBox(height: 10),
         Expanded(
           child: ListView.separated(
             padding: const EdgeInsets.all(10),
@@ -57,18 +88,15 @@ class _SettingsTabState extends State<SettingsTab> {
             },
             itemBuilder: (BuildContext context, int index) {
               return ListTile(
+                leading: Icon(settings[index]['icon'],
+                    color: settings[index]['color']),
                 title: Text(
                   settings[index]['title'],
                   style: TextStyle(
-                    color: Theme.of(context).colorScheme.onBackground,
+                    color: settings[index]['color'],
                   ),
                 ),
-                onTap: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => settings[index]['page'],
-                  ),
-                ),
+                onTap: settings[index]['onTab'],
               );
             },
           ),

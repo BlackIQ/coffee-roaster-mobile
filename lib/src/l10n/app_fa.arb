@@ -106,5 +106,7 @@
   "password_label": "رمز",
   "password_placeholder": "رمز عبور خود را وارد نمایید",
   "button_login": "ورود به حساب کاربری",
-  "button_guest": "ورود به عنوان مهمان"
+  "button_guest": "ورود به عنوان مهمان",
+  "tab_settings_logout": "خروج از حساب کاربری",
+  "tab_settings_profile": "حساب کاربری"
 }
