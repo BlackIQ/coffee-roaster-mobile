@@ -1,6 +1,6 @@
 {
   "@@locale": "fa",
-  "app_title": "سرخ‌کن",
+  "app_title": "رستر",
   "tab_settings_lang": "زبان",
   "tab_settings_theme": "تم",
   "page_scan_title": "انتخاب دستگاه",
@@ -99,5 +99,12 @@
   "country_costarica": "کاستاریکا",
   "country_etc": "غیره",
   "confirm_continue": "آیا مایل به ادامه هستید؟",
-  "step_trns": "قدم"
+  "step_trns": "قدم",
+  "login_title": "وارد حساب خود شوید",
+  "username_label": "نام‌کاربری",
+  "username_placeholder": "نام‌کاربری خود را وارد نمایید",
+  "password_label": "رمز",
+  "password_placeholder": "رمز عبور خود را وارد نمایید",
+  "button_login": "ورود به حساب کاربری",
+  "button_guest": "ورود به عنوان مهمان"
 }

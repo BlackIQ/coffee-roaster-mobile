@@ -99,5 +99,12 @@
   "country_costarica": "Costa Rica",
   "country_etc": "Etc",
   "confirm_continue": "Would you like to continue?",
-  "step_trns": "Step"
+  "step_trns": "Step",
+  "login_title": "Login to your account",
+  "username_label": "Username",
+  "username_placeholder": "Enter your username",
+  "password_label": "Password",
+  "password_placeholder": "Enter your password",
+  "button_login": "Login",
+  "button_guest": "Login as guest"
 }
