@@ -11,7 +11,7 @@ class AppState extends ChangeNotifier {
   }
 
   // Authentication
-  bool _authenticated = true;
+  bool _authenticated = false;
   bool get getAuthenticated => _authenticated;
   void setAuthenticated(bool authenticated) {
     _authenticated = authenticated;
