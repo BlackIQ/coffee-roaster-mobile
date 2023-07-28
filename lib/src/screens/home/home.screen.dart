@@ -52,6 +52,9 @@ class _HomeScreenState extends State<HomeScreen> {
         elevation: 1,
         actions: [
           IconButton(
+            tooltip: device == null
+                ? lang.tooltip_disconnected
+                : lang.tooltip_connected(device.name),
             icon: Icon(
                 device == null ? Icons.bluetooth : Icons.bluetooth_disabled),
             onPressed: () async {
@@ -82,10 +85,12 @@ class _HomeScreenState extends State<HomeScreen> {
           BottomNavigationBarItem(
             icon: const Icon(Icons.coffee_maker),
             label: lang.bottom_navigator_roaster,
+            tooltip: lang.bottom_navigator_roaster,
           ),
           BottomNavigationBarItem(
             icon: const Icon(Icons.settings),
             label: lang.bottom_navigator_settings,
+            tooltip: lang.bottom_navigator_settings,
           ),
         ],
       ),
