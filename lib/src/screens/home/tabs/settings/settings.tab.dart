@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:roaster/src/screens/home/pages/settings/language.page.dart';
 
 import 'package:provider/provider.dart';
+import 'package:roaster/src/screens/home/pages/settings/profile.page.dart';
 import 'package:roaster/src/services/state/state.service.dart';
 
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -24,7 +25,12 @@ class _SettingsTabState extends State<SettingsTab> {
         'title': lang!.tab_settings_profile,
         'color': Theme.of(context).colorScheme.primary,
         'icon': Icons.person,
-        'onTab': () => print("Hello!"),
+        'onTab': () => Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const ProfileSettings(),
+              ),
+            ),
       },
       {
         'title': lang.tab_settings_lang,
@@ -57,21 +63,30 @@ class _SettingsTabState extends State<SettingsTab> {
       },
     ];
 
+    Map user = Provider.of<AppState>(context, listen: true).getUser;
+
+    String avatarText = "";
+
+    for (var element in user['name'].split(" ")) {
+      avatarText += element[0];
+    }
+
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        const Center(
+        Center(
           child: Padding(
-            padding: EdgeInsets.only(top: 20, bottom: 10),
+            padding: const EdgeInsets.only(top: 20, bottom: 10),
             child: CircleAvatar(
               radius: 50,
-              child: Text("A"),
+              child: Text(avatarText),
             ),
           ),
         ),
+        const SizedBox(height: 10),
         Text(
-          "V Beta 1.0.0",
+          user['name'],
           style: TextStyle(
             color: Theme.of(context).colorScheme.onBackground,
           ),
@@ -101,6 +116,12 @@ class _SettingsTabState extends State<SettingsTab> {
             },
           ),
         ),
+        Text(
+          "V Beta 1.0.0",
+          style: TextStyle(
+              color: Theme.of(context).colorScheme.onBackground, fontSize: 10),
+        ),
+        const SizedBox(height: 10)
       ],
     );
   }
