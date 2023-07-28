@@ -3,6 +3,7 @@ import 'package:roaster/src/screens/home/pages/settings/language.page.dart';
 
 import 'package:provider/provider.dart';
 import 'package:roaster/src/screens/home/pages/settings/profile.page.dart';
+import 'package:roaster/src/screens/home/pages/support/support.page.dart';
 import 'package:roaster/src/services/state/state.service.dart';
 
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -51,6 +52,17 @@ class _SettingsTabState extends State<SettingsTab> {
               context,
               MaterialPageRoute(
                 builder: (context) => const ThemeSettings(),
+              ),
+            ),
+      },
+      {
+        'title': "Support",
+        'color': Theme.of(context).colorScheme.primary,
+        'icon': Icons.support_agent,
+        'onTab': () => Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const SupportPage(),
               ),
             ),
       },
