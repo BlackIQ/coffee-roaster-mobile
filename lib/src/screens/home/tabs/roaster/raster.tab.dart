@@ -179,21 +179,21 @@ class _RoasterTabState extends State<RoasterTab> {
           ),
           TextButton(
             onPressed: () async {
-              // Map<String, int> sendObject = {
-              //   "1": weightTime ~/ 10,
-              //   "2": sizeTime ~/ 10,
-              //   "3": beanTime ~/ 10,
-              //   "4": roastTime ~/ 10,
-              //   "5": stepFive ~/ 10,
-              // };
-
               Map<String, int> sendObject = {
-                "1": weightTime,
-                "2": sizeTime,
-                "3": beanTime,
-                "4": roastTime,
-                "5": stepFive,
+                "1": weightTime ~/ 10,
+                "2": sizeTime ~/ 10,
+                "3": beanTime ~/ 10,
+                "4": roastTime ~/ 10,
+                "5": stepFive ~/ 10,
               };
+
+              // Map<String, int> sendObject = {
+              //   "1": weightTime,
+              //   "2": sizeTime,
+              //   "3": beanTime,
+              //   "4": roastTime,
+              //   "5": stepFive,
+              // };
 
               if (connectedDevice != null) {
                 try {
