@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:roaster/src/services/api/api.service.dart';
 import 'package:roaster/src/services/state/state.service.dart';
 
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -13,6 +14,8 @@ class AuthScreen extends StatefulWidget {
 }
 
 class _AuthScreenState extends State<AuthScreen> {
+  final DioClient _dioClient = DioClient();
+
   Future<void> _showSnackBar(BuildContext context, String message) async {
     final snackBar = SnackBar(
       content: Text(message),
@@ -22,15 +25,28 @@ class _AuthScreenState extends State<AuthScreen> {
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 
-  final TextEditingController _username = TextEditingController();
+  final TextEditingController _email = TextEditingController();
   final TextEditingController _password = TextEditingController();
 
-  void login() {
-    if (_username.text == 'amir' && _password.text == '200300') {
-      Provider.of<AppState>(context, listen: false).setAuthenticated(true);
-    } else {
-      _showSnackBar(context, 'Wrong username or pasword password');
-    }
+  Future<void> login() async {
+    Map data = {
+      'email': _email.text,
+      'password': _password.text,
+    };
+
+    var response = _dioClient.login(data);
+
+    response.then((result) {
+      if (result.statusCode == 200) {
+        Provider.of<AppState>(context, listen: false).setAuthenticated(true);
+        Provider.of<AppState>(context, listen: false)
+            .setUser(result.data["user"]);
+        Provider.of<AppState>(context, listen: false)
+            .setToken(result.data["token"]);
+      } else {
+        _showSnackBar(context, result.data["message"].toString());
+      }
+    }).catchError((error) {});
   }
 
   @override
@@ -70,11 +86,11 @@ class _AuthScreenState extends State<AuthScreen> {
               ),
               const SizedBox(height: 20),
               TextField(
-                controller: _username,
+                controller: _email,
                 decoration: InputDecoration(
                   border: const OutlineInputBorder(),
-                  labelText: lang.username_label,
-                  hintText: lang.username_placeholder,
+                  labelText: lang.email_label,
+                  hintText: lang.email_placeholder,
                 ),
               ),
               const SizedBox(height: 10),
