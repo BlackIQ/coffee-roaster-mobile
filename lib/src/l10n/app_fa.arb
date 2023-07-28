@@ -110,6 +110,7 @@
   "button_guest": "ورود به عنوان مهمان",
   "tab_settings_logout": "خروج از حساب کاربری",
   "tab_settings_profile": "حساب کاربری",
+  "tab_settings_support": "پشتیبانی",
   "tooltip_disconnected": "اتصال فعالی یافت نشد",
   "tooltip_connected": "متصل به {name}",
   "@tooltip_connected": { 
@@ -137,5 +138,33 @@
         "example": "device name"
       }
     }  
-  }
+  },
+  "page_support_title": "پشتیبانی",
+  "page_support_add_tooltip": "ارسال تیکت جدید",
+  "loading": "درحال بارگیری",
+  "issued_ticket": "تاریخ ثبت تیکت",
+  "rate_title": "به پشتیبانی امتیاز دهید",
+  "rate_before": "شما قبلا روی این پشتیبانی امتیاز ثبت کرده اید!",
+  "rate_done": "امتیاز با موفقیت ثبت شد",
+  "rate_submit": "ثبت امتیاز",
+  "page_support_add_title": "درخواست جدید",
+  "page_support_add_details": "در اینجا میتوانید درخواست جدید خود را ثبت کنید تا پشتیبان های ما در اصرع وقت به درخواست شما رسیدگی کنند.",
+  "page_support_field_title": "موضوع درخواست",
+  "page_support_field_details": "توضیحات درخواست",
+  "page_support_button_submit": "ارسال درخواست",
+  "page_support_snack_created": "درخواست شما ارسال شد",
+  "page_settings_profile": "پروفایل",
+  "page_settings_profile_change_info": "تغییر اطلاعات فردی",
+  "page_settings_profile_change_password": "تغییر رمز",
+  "page_settings_profile_field_name": "نام را وارد کنید",
+  "page_settings_profile_field_email": "ایمیل را وارد کنید",
+  "page_settings_profile_field_currentpass": "رمز فعلی",
+  "page_settings_profile_field_newpassword": "رمز جدید",
+  "page_settings_profile_field_confirmpassword": "تایید رمز جدید",
+  "page_settings_profile_submit_info": "تغییر اطلاعات",
+  "page_settings_profile_submit_password": "تغییر رمز",
+  "page_settings_profile_pass_updated": "رمز با موفقیت تغییر کرد",
+  "page_settings_profile_pass_conflict_current": "رمز فعلی با رمز وارد شده مقایرت دارد",
+  "page_settings_profile_pass_conflict_new": "رمز جدید با تایید رمز مقایرت دارد",
+  "page_settings_profile_user_updated": "اطلاعات با موفقیت تغییر کرد"
 }

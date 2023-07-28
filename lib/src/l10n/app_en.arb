@@ -110,6 +110,7 @@
   "button_guest": "Login as guest",
   "tab_settings_logout": "Logout from account",
   "tab_settings_profile": "Profile",
+  "tab_settings_support": "Support",
   "tooltip_disconnected": "No active connection",
   "tooltip_connected": "Connected to {name}",
   "@tooltip_connected": { 
@@ -137,5 +138,33 @@
         "example": "device name"
       }
     }  
-  }
+  },
+  "page_support_title": "Support",
+  "page_support_add_tooltip": "Create new ticket",
+  "loading": "Loading",
+  "issued_ticket": "Ticket issued at",
+  "rate_title": "Rate this support",
+  "rate_before": "You rated this ticket before!",
+  "rate_done": "Rated successfully",
+  "rate_submit": "Rate",
+  "page_support_add_title": "Create new ticket",
+  "page_support_add_details": "Here you can create new support request.",
+  "page_support_field_title": "Enter title",
+  "page_support_field_details": "Enter details",
+  "page_support_button_submit": "Send ticket",
+  "page_support_snack_created": "Sent!",
+  "page_settings_profile": "Profle",
+  "page_settings_profile_change_info": "Change information",
+  "page_settings_profile_change_password": "Change password",
+  "page_settings_profile_field_name": "Enter name",
+  "page_settings_profile_field_email": "Enter email",
+  "page_settings_profile_field_currentpass": "Current password",
+  "page_settings_profile_field_newpassword": "New password",
+  "page_settings_profile_field_confirmpassword": "Confirm password",
+  "page_settings_profile_submit_info": "Change information",
+  "page_settings_profile_submit_password": "Change password",
+  "page_settings_profile_pass_updated": "Password updated",
+  "page_settings_profile_pass_conflict_current": "Current password is not matched",
+  "page_settings_profile_pass_conflict_new": "New password and confirm password is not matched",
+  "page_settings_profile_user_updated": "User updated"
 }
