@@ -114,7 +114,7 @@ class _ScanPageState extends State<ScanPage> {
                             });
 
                             _showSnackBar(
-                                context, "Disconnected from ${device.name}");
+                                context, lang.action_disconnected(device.name));
                           } else {
                             await device.connect();
 
@@ -126,7 +126,7 @@ class _ScanPageState extends State<ScanPage> {
                             });
 
                             _showSnackBar(
-                                context, "Conencted to ${device.name}");
+                                context, lang.action_connected(device.name));
                           }
                         },
                         child: Text(
