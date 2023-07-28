@@ -207,15 +207,15 @@ class _RoasterTabState extends State<RoasterTab> {
 
                     await characteristic.write(sendHex);
 
-                    characteristic.setNotifyValue(true);
+                    // characteristic.setNotifyValue(true);
 
-                    characteristic.value.listen((value) {
-                      if (value.runtimeType.toString() == "Uint8List") {
-                        String response = hexToString(value);
+                    // characteristic.value.listen((value) {
+                    //   if (value.runtimeType.toString() == "Uint8List") {
+                    //     String response = hexToString(value);
 
-                        _showSnackBar(context, response);
-                      }
-                    });
+                    //     _showSnackBar(context, response);
+                    //   }
+                    // });
 
                     // var subscription = characteristic.value.listen((value) {
                     //   if (value.runtimeType.toString() == "Uint8List") {
