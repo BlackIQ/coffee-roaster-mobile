@@ -29,6 +29,20 @@ class _ProfileSettingsState extends State<ProfileSettings> {
     return md5.convert(utf8.encode(input)).toString();
   }
 
+  Future<void> getUser(context) async {
+    String id = Provider.of<AppState>(context, listen: false).getUser['_id'];
+
+    var response = _dioClient.singleUser(id, context);
+
+    response.then((result) {
+      if (result.statusCode == 200) {
+        Provider.of<AppState>(context, listen: false).setUser(result.data);
+      } else {
+        _showSnackBar(context, result.data["message"].toString());
+      }
+    }).catchError((error) {});
+  }
+
   Future<void> changeInformation(context, name, email) async {
     String id = Provider.of<AppState>(context, listen: false).getUser['_id'];
 
@@ -42,6 +56,8 @@ class _ProfileSettingsState extends State<ProfileSettings> {
     response.then((result) {
       if (result.statusCode == 200) {
         _showSnackBar(context, "User updated");
+
+        getUser(context);
       } else {
         _showSnackBar(context, result.data["message"].toString());
       }
@@ -64,6 +80,8 @@ class _ProfileSettingsState extends State<ProfileSettings> {
         response.then((result) {
           if (result.statusCode == 200) {
             _showSnackBar(context, "Password updated");
+
+            getUser(context);
           } else {
             _showSnackBar(context, result.data["message"].toString());
           }
