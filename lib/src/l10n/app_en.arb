@@ -108,5 +108,15 @@
   "button_login": "Login",
   "button_guest": "Login as guest",
   "tab_settings_logout": "Logout from account",
-  "tab_settings_profile": "Profile"
+  "tab_settings_profile": "Profile",
+  "tooltip_disconnected": "No active connection",
+  "tooltip_connected": "Connected to {name}",
+  "@tooltip_connected": { 
+    "placeholders": {
+      "name": {
+        "type": "String",
+        "example": "device name"
+      }
+    }  
+  }
 }

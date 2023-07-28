@@ -12,7 +12,7 @@
   "bean_robusta": "ربوستا",
   "bean_arabica": "عربیکا",
   "bean_test": "تست",
-  "bottom_navigator_roaster": "سرخ‌کردن",
+  "bottom_navigator_roaster": "رستر",
   "bottom_navigator_settings": "تنظیمات",
   "toast_no_device": "ابتدا به یک دستگاه متصل شوید",
   "toast_start_operation": "عملیات آغاز شد",
@@ -108,5 +108,15 @@
   "button_login": "ورود به حساب کاربری",
   "button_guest": "ورود به عنوان مهمان",
   "tab_settings_logout": "خروج از حساب کاربری",
-  "tab_settings_profile": "حساب کاربری"
+  "tab_settings_profile": "حساب کاربری",
+  "tooltip_disconnected": "اتصال فعالی یافت نشد",
+  "tooltip_connected": "متصل به {name}",
+  "@tooltip_connected": { 
+    "placeholders": {
+      "name": {
+        "type": "String",
+        "example": "device name"
+      }
+    }  
+  }
 }
