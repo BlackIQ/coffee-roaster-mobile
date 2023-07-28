@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:crypto/crypto.dart';
 import 'package:roaster/src/services/api/api.service.dart';
 import 'package:roaster/src/services/state/state.service.dart';
-// import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'dart:convert';
 
 class ProfileSettings extends StatefulWidget {
@@ -47,6 +47,8 @@ class _ProfileSettingsState extends State<ProfileSettings> {
   Future<void> changeInformation(context, name, email) async {
     String id = Provider.of<AppState>(context, listen: false).getUser['_id'];
 
+    final lang = AppLocalizations.of(context);
+
     Map data = {
       'email': email,
       'name': name,
@@ -56,7 +58,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
 
     response.then((result) {
       if (result.statusCode == 200) {
-        _showSnackBar(context, "User updated");
+        _showSnackBar(context, lang!.page_settings_profile_user_updated);
 
         getUser(context);
       } else {
@@ -70,6 +72,8 @@ class _ProfileSettingsState extends State<ProfileSettings> {
     String cur =
         Provider.of<AppState>(context, listen: false).getUser['password'];
 
+    final lang = AppLocalizations.of(context);
+
     if (cur == generateMd5(curPass)) {
       if (newPass == confPass) {
         Map data = {
@@ -80,7 +84,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
 
         response.then((result) {
           if (result.statusCode == 200) {
-            _showSnackBar(context, "Password updated");
+            _showSnackBar(context, lang!.page_settings_profile_pass_updated);
 
             getUser(context);
           } else {
@@ -88,17 +92,16 @@ class _ProfileSettingsState extends State<ProfileSettings> {
           }
         }).catchError((error) {});
       } else {
-        _showSnackBar(
-            context, "New password and confirm password is not matched");
+        _showSnackBar(context, lang!.page_settings_profile_pass_conflict_new);
       }
     } else {
-      _showSnackBar(context, "Current password is not matched");
+      _showSnackBar(context, lang!.page_settings_profile_pass_conflict_current);
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    // final lang = AppLocalizations.of(context);
+    final lang = AppLocalizations.of(context);
 
     Map user = Provider.of<AppState>(context, listen: true).getUser;
 
@@ -116,7 +119,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: const Text("Profile"),
+        title: Text(lang!.page_settings_profile),
         elevation: 1,
       ),
       body: Padding(
@@ -126,7 +129,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Text(
-              "Change information",
+              lang.page_settings_profile_change_info,
               style: TextStyle(
                 color: Theme.of(context).colorScheme.primary,
                 fontSize: 20,
@@ -135,19 +138,19 @@ class _ProfileSettingsState extends State<ProfileSettings> {
             const SizedBox(height: 15),
             TextField(
               controller: name,
-              decoration: const InputDecoration(
-                border: OutlineInputBorder(),
-                labelText: "Change name",
-                hintText: "Change name",
+              decoration: InputDecoration(
+                border: const OutlineInputBorder(),
+                labelText: lang.page_settings_profile_field_name,
+                hintText: lang.page_settings_profile_field_name,
               ),
             ),
             const SizedBox(height: 10),
             TextField(
               controller: email,
-              decoration: const InputDecoration(
-                border: OutlineInputBorder(),
-                labelText: "Change email",
-                hintText: "Change email",
+              decoration: InputDecoration(
+                border: const OutlineInputBorder(),
+                labelText: lang.page_settings_profile_field_email,
+                hintText: lang.page_settings_profile_field_email,
               ),
             ),
             const SizedBox(height: 10),
@@ -162,7 +165,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                 backgroundColor: Theme.of(context).colorScheme.primaryContainer,
                 foregroundColor: Theme.of(context).colorScheme.primary,
               ),
-              child: const Text("Change information"),
+              child: Text(lang.page_settings_profile_submit_info),
             ),
             const SizedBox(height: 10),
             Divider(
@@ -170,7 +173,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
             ),
             const SizedBox(height: 10),
             Text(
-              "Change password",
+              lang.page_settings_profile_change_password,
               style: TextStyle(
                 color: Theme.of(context).colorScheme.error,
                 fontSize: 20,
@@ -179,10 +182,10 @@ class _ProfileSettingsState extends State<ProfileSettings> {
             const SizedBox(height: 15),
             TextField(
               controller: currentPassword,
-              decoration: const InputDecoration(
-                border: OutlineInputBorder(),
-                labelText: "Current password",
-                hintText: "Current password",
+              decoration: InputDecoration(
+                border: const OutlineInputBorder(),
+                labelText: lang.page_settings_profile_field_currentpass,
+                hintText: lang.page_settings_profile_field_currentpass,
               ),
               obscureText: true,
             ),
@@ -194,10 +197,10 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                 Expanded(
                   child: TextField(
                     controller: newPassword,
-                    decoration: const InputDecoration(
-                      border: OutlineInputBorder(),
-                      labelText: "New password",
-                      hintText: "New password",
+                    decoration: InputDecoration(
+                      border: const OutlineInputBorder(),
+                      labelText: lang.page_settings_profile_field_newpassword,
+                      hintText: lang.page_settings_profile_field_newpassword,
                     ),
                     obscureText: true,
                   ),
@@ -206,10 +209,12 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                 Expanded(
                   child: TextField(
                     controller: confirmPassword,
-                    decoration: const InputDecoration(
-                      border: OutlineInputBorder(),
-                      labelText: "Confirm password",
-                      hintText: "Confirm password",
+                    decoration: InputDecoration(
+                      border: const OutlineInputBorder(),
+                      labelText:
+                          lang.page_settings_profile_field_confirmpassword,
+                      hintText:
+                          lang.page_settings_profile_field_confirmpassword,
                     ),
                     obscureText: true,
                   ),
@@ -229,7 +234,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                 backgroundColor: Theme.of(context).colorScheme.errorContainer,
                 foregroundColor: Theme.of(context).colorScheme.error,
               ),
-              child: const Text("Change password"),
+              child: Text(lang.page_settings_profile_submit_password),
             ),
           ],
         ),

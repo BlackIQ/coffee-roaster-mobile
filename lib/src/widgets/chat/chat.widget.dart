@@ -27,7 +27,12 @@ class ChatContainer extends StatelessWidget {
         ),
       ),
       child: Padding(
-        padding: const EdgeInsets.all(10),
+        padding: const EdgeInsets.only(
+          right: 20,
+          left: 20,
+          top: 20,
+          bottom: 20,
+        ),
         child: Text(
           text,
           style: TextStyle(color: fgcolor),

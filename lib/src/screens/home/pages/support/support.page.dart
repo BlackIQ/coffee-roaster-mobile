@@ -10,7 +10,7 @@ import 'package:roaster/src/services/api/api.service.dart';
 
 import 'package:roaster/src/services/state/state.service.dart';
 
-// import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SupportPage extends StatefulWidget {
   const SupportPage({super.key});
@@ -62,12 +62,12 @@ class _SupportPageState extends State<SupportPage> {
 
   @override
   Widget build(BuildContext context) {
-    // final lang = AppLocalizations.of(context);
+    final lang = AppLocalizations.of(context);
 
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: const Text("Support"),
+        title: Text(lang!.page_support_title),
         elevation: 1,
         actions: [
           IconButton(
@@ -78,7 +78,7 @@ class _SupportPageState extends State<SupportPage> {
                 builder: (context) => const CreateSupportPage(),
               ),
             ),
-            tooltip: "Create new ticket",
+            tooltip: lang.page_support_add_tooltip,
           )
         ],
       ),

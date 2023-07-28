@@ -56,7 +56,7 @@ class _SettingsTabState extends State<SettingsTab> {
             ),
       },
       {
-        'title': "Support",
+        'title': lang.tab_settings_support,
         'color': Theme.of(context).colorScheme.primary,
         'icon': Icons.support_agent,
         'onTab': () => Navigator.push(

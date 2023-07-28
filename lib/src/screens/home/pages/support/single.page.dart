@@ -7,7 +7,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:roaster/src/services/api/api.service.dart';
 import 'package:roaster/src/widgets/chat/chat.widget.dart';
 
-// import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SingleSupportPage extends StatefulWidget {
   const SingleSupportPage({super.key, this.id});
@@ -63,11 +63,13 @@ class _SingleSupportPageState extends State<SingleSupportPage> {
       'rate': rate,
     };
 
+    final lang = AppLocalizations.of(context);
+
     var response = _dioClient.rateTicket(widget.id, data, context);
 
     response.then((result) {
       if (result.statusCode == 200) {
-        _showSnackBar(context, "Rated!");
+        _showSnackBar(context, lang!.rate_done);
 
         getSingleTicket();
       } else {
@@ -115,12 +117,12 @@ class _SingleSupportPageState extends State<SingleSupportPage> {
 
   @override
   Widget build(BuildContext context) {
-    // final lang = AppLocalizations.of(context);
+    final lang = AppLocalizations.of(context);
 
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(!loading ? ticket['title'] : "Loading"),
+        title: Text(!loading ? ticket['title'] : lang!.loading),
         elevation: 1,
       ),
       body: !loading
@@ -131,7 +133,7 @@ class _SingleSupportPageState extends State<SingleSupportPage> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Text(
-                    "Ticket issues at",
+                    lang!.issued_ticket,
                     style: TextStyle(
                       color: Theme.of(context).colorScheme.primary,
                       fontSize: 15,
@@ -168,7 +170,7 @@ class _SingleSupportPageState extends State<SingleSupportPage> {
                   ticket['status'] == 2
                       ? Center(
                           child: Text(
-                            "Rate this support!",
+                            lang.rate_title,
                             style: TextStyle(
                               color: Colors.yellow[800],
                               fontSize: 20,
@@ -200,7 +202,7 @@ class _SingleSupportPageState extends State<SingleSupportPage> {
                                     });
                                   },
                                 )
-                              : const Text("You rated thick ticket before!"),
+                              : Text(lang.rate_before),
                         )
                       : Container(),
                   const SizedBox(height: 15),
@@ -214,10 +216,11 @@ class _SingleSupportPageState extends State<SingleSupportPage> {
                                 backgroundColor: Colors.yellow[800],
                                 foregroundColor: Colors.white,
                               ),
-                              child: const Text("Rate"),
+                              child: Text(lang.rate_submit),
                             )
                           : Container()
                       : Container(),
+                  const SizedBox(height: 20),
                 ],
               ),
             )
