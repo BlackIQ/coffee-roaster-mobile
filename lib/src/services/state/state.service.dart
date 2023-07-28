@@ -18,6 +18,14 @@ class AppState extends ChangeNotifier {
     notifyListeners();
   }
 
+  // Guest
+  bool _guest = false;
+  bool get getGuest => _guest;
+  void setGuest(bool guest) {
+    _guest = guest;
+    notifyListeners();
+  }
+
   // Token
   String _token = '';
   String get getToken => _token;
