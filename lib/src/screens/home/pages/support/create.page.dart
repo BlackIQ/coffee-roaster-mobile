@@ -1,9 +1,7 @@
 import 'package:provider/provider.dart';
 import 'dart:async';
-import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:roaster/src/services/api/api.service.dart';
 
 import 'package:roaster/src/services/state/state.service.dart';

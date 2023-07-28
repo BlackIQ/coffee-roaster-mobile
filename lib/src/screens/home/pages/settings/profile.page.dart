@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+// ignore: depend_on_referenced_packages
 import 'package:crypto/crypto.dart';
 import 'package:roaster/src/services/api/api.service.dart';
 import 'package:roaster/src/services/state/state.service.dart';
@@ -101,21 +102,21 @@ class _ProfileSettingsState extends State<ProfileSettings> {
 
     Map user = Provider.of<AppState>(context, listen: true).getUser;
 
-    final TextEditingController _name = TextEditingController(
+    final TextEditingController name = TextEditingController(
       text: user['name'],
     );
-    final TextEditingController _email = TextEditingController(
+    final TextEditingController email = TextEditingController(
       text: user['email'],
     );
 
-    final TextEditingController _currentPassword = TextEditingController();
-    final TextEditingController _newPassword = TextEditingController();
-    final TextEditingController _confirmPassword = TextEditingController();
+    final TextEditingController currentPassword = TextEditingController();
+    final TextEditingController newPassword = TextEditingController();
+    final TextEditingController confirmPassword = TextEditingController();
 
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: const Text("Profile"), // TODO: Translate
+        title: const Text("Profile"),
         elevation: 1,
       ),
       body: Padding(
@@ -133,7 +134,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
             ),
             const SizedBox(height: 15),
             TextField(
-              controller: _name,
+              controller: name,
               decoration: const InputDecoration(
                 border: OutlineInputBorder(),
                 labelText: "Change name",
@@ -142,7 +143,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
             ),
             const SizedBox(height: 10),
             TextField(
-              controller: _email,
+              controller: email,
               decoration: const InputDecoration(
                 border: OutlineInputBorder(),
                 labelText: "Change email",
@@ -153,8 +154,8 @@ class _ProfileSettingsState extends State<ProfileSettings> {
             ElevatedButton(
               onPressed: () => changeInformation(
                 context,
-                _name.text,
-                _email.text,
+                name.text,
+                email.text,
               ),
               style: ElevatedButton.styleFrom(
                 padding: const EdgeInsets.symmetric(vertical: 16),
@@ -177,7 +178,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
             ),
             const SizedBox(height: 15),
             TextField(
-              controller: _currentPassword,
+              controller: currentPassword,
               decoration: const InputDecoration(
                 border: OutlineInputBorder(),
                 labelText: "Current password",
@@ -192,7 +193,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
               children: [
                 Expanded(
                   child: TextField(
-                    controller: _newPassword,
+                    controller: newPassword,
                     decoration: const InputDecoration(
                       border: OutlineInputBorder(),
                       labelText: "New password",
@@ -204,7 +205,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                 const SizedBox(width: 10),
                 Expanded(
                   child: TextField(
-                    controller: _confirmPassword,
+                    controller: confirmPassword,
                     decoration: const InputDecoration(
                       border: OutlineInputBorder(),
                       labelText: "Confirm password",
@@ -219,9 +220,9 @@ class _ProfileSettingsState extends State<ProfileSettings> {
             ElevatedButton(
               onPressed: () => changePassword(
                 context,
-                _currentPassword.text,
-                _newPassword.text,
-                _confirmPassword.text,
+                currentPassword.text,
+                newPassword.text,
+                confirmPassword.text,
               ),
               style: ElevatedButton.styleFrom(
                 padding: const EdgeInsets.symmetric(vertical: 16),

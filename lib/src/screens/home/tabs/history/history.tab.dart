@@ -1,9 +1,5 @@
-import 'dart:async';
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter_blue/flutter_blue.dart';
 
 import 'package:roaster/src/services/state/state.service.dart';
 
@@ -32,14 +28,14 @@ List histories = [
 ];
 
 class _HistoryTabState extends State<HistoryTab> {
-  Future<void> _showSnackBar(BuildContext context, String message) async {
-    final snackBar = SnackBar(
-      content: Text(message),
-      duration: const Duration(seconds: 1),
-    );
+  // Future<void> _showSnackBar(BuildContext context, String message) async {
+  //   final snackBar = SnackBar(
+  //     content: Text(message),
+  //     duration: const Duration(seconds: 1),
+  //   );
 
-    ScaffoldMessenger.of(context).showSnackBar(snackBar);
-  }
+  //   ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  // }
 
   @override
   Widget build(BuildContext context) {
