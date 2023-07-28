@@ -112,14 +112,14 @@ class _AuthScreenState extends State<AuthScreen> {
                 ),
                 child: Text(lang.button_login),
               ),
-              const SizedBox(height: 10),
-              TextButton(
-                onPressed: login,
-                style: TextButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(vertical: 16),
-                ),
-                child: Text(lang.button_guest),
-              ),
+              // const SizedBox(height: 10),
+              // TextButton(
+              //   onPressed: login,
+              //   style: TextButton.styleFrom(
+              //     padding: const EdgeInsets.symmetric(vertical: 16),
+              //   ),
+              //   child: Text(lang.button_guest),
+              // ),
               const SizedBox(height: 40),
               DropdownButtonFormField<Locale>(
                 decoration: InputDecoration(
