@@ -14,6 +14,7 @@
   "bean_test": "Test",
   "bottom_navigator_roaster": "Roast",
   "bottom_navigator_settings": "Settings",
+  "bottom_navigator_history": "History",
   "toast_no_device": "Please connect to a device first",
   "toast_start_operation": "Operation started",
   "dialog_roast_yes": "Start",
@@ -112,6 +113,24 @@
   "tooltip_disconnected": "No active connection",
   "tooltip_connected": "Connected to {name}",
   "@tooltip_connected": { 
+    "placeholders": {
+      "name": {
+        "type": "String",
+        "example": "device name"
+      }
+    }  
+  },
+  "action_connected": "Connected to {name}",
+  "@action_connected": { 
+    "placeholders": {
+      "name": {
+        "type": "String",
+        "example": "device name"
+      }
+    }  
+  },
+  "action_disconnected": "Dosconnected from {name}",
+  "@action_disconnected": { 
     "placeholders": {
       "name": {
         "type": "String",

@@ -14,6 +14,7 @@
   "bean_test": "تست",
   "bottom_navigator_roaster": "رستر",
   "bottom_navigator_settings": "تنظیمات",
+  "bottom_navigator_history": "تاریخچه",
   "toast_no_device": "ابتدا به یک دستگاه متصل شوید",
   "toast_start_operation": "عملیات آغاز شد",
   "dialog_roast_yes": "شروع",
@@ -112,6 +113,24 @@
   "tooltip_disconnected": "اتصال فعالی یافت نشد",
   "tooltip_connected": "متصل به {name}",
   "@tooltip_connected": { 
+    "placeholders": {
+      "name": {
+        "type": "String",
+        "example": "device name"
+      }
+    }  
+  },
+  "action_connected": "به {name} متصل شدید",
+  "@action_connected": { 
+    "placeholders": {
+      "name": {
+        "type": "String",
+        "example": "device name"
+      }
+    }  
+  },
+  "action_disconnected": "از {name} قطع شدید",
+  "@action_disconnected": { 
     "placeholders": {
       "name": {
         "type": "String",
