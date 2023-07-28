@@ -28,6 +28,25 @@ class DioClient {
     }
   }
 
+// Get Single User
+  Future<Response> singleUser(String id, BuildContext context) async {
+    Response response;
+
+    String token = Provider.of<AppState>(context, listen: false).getToken;
+
+    _dio.options.headers["Authorization"] = 'Bearer $token';
+
+    try {
+      response = await _dio.get('/users/$id');
+
+      return response;
+    } on DioException catch (e) {
+      response = e.response!;
+
+      return response;
+    }
+  }
+
   // Change user info
   Future<Response> updateUser(
     String id,
@@ -75,7 +94,7 @@ class DioClient {
   }
 
   // Get All Tickets
-  Future<Response> allTickets(BuildContext context) async {
+  Future<Response> allTickets(String id, BuildContext context) async {
     Response response;
 
     String token = Provider.of<AppState>(context, listen: false).getToken;
@@ -83,7 +102,7 @@ class DioClient {
     _dio.options.headers["Authorization"] = 'Bearer $token';
 
     try {
-      response = await _dio.get('/support');
+      response = await _dio.get('/support/for/$id');
 
       return response;
     } on DioException catch (e) {
@@ -103,6 +122,26 @@ class DioClient {
 
     try {
       response = await _dio.get('/support/$id');
+
+      return response;
+    } on DioException catch (e) {
+      response = e.response!;
+
+      return response;
+    }
+  }
+
+  // Rate Ticket
+  Future<Response> rateTicket(
+      String id, dynamic data, BuildContext context) async {
+    Response response;
+
+    String token = Provider.of<AppState>(context, listen: false).getToken;
+
+    _dio.options.headers["Authorization"] = 'Bearer $token';
+
+    try {
+      response = await _dio.patch('/support/rate/$id', data: data);
 
       return response;
     } on DioException catch (e) {
