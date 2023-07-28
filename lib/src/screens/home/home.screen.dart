@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_blue/flutter_blue.dart';
 import 'package:provider/provider.dart';
 import 'package:roaster/src/screens/home/pages/scan/scan.page.dart';
+import 'package:roaster/src/screens/home/tabs/history/history.tab.dart';
 import 'package:roaster/src/screens/home/tabs/roaster/raster.tab.dart';
 import 'package:roaster/src/screens/home/tabs/settings/settings.tab.dart';
 import 'package:roaster/src/services/state/state.service.dart';
@@ -29,6 +30,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   static const List<Widget> _widgetOptions = <Widget>[
     RoasterTab(),
+    HistoryTab(),
     SettingsTab(),
   ];
 
@@ -70,7 +72,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
                 Provider.of<AppState>(context, listen: false).unsetBle();
 
-                _showSnackBar(context, "Disconnected from ${device.name}");
+                _showSnackBar(context, lang.action_disconnected(device.name));
               }
             },
           ),
@@ -83,9 +85,14 @@ class _HomeScreenState extends State<HomeScreen> {
         onTap: _onItemTapped,
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: const Icon(Icons.coffee_maker),
+            icon: const Icon(Icons.coffee_maker_outlined),
             label: lang.bottom_navigator_roaster,
             tooltip: lang.bottom_navigator_roaster,
+          ),
+          BottomNavigationBarItem(
+            icon: const Icon(Icons.history_outlined),
+            label: lang.bottom_navigator_history,
+            tooltip: lang.bottom_navigator_history,
           ),
           BottomNavigationBarItem(
             icon: const Icon(Icons.settings),
