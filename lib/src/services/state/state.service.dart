@@ -18,6 +18,14 @@ class AppState extends ChangeNotifier {
     notifyListeners();
   }
 
+  // User
+  Map _user = {};
+  Map get getUser => _user;
+  void setUser(Map user) {
+    _user = user;
+    notifyListeners();
+  }
+
   // Guest
   bool _guest = false;
   bool get getGuest => _guest;
