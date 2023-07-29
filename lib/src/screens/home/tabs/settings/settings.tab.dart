@@ -77,9 +77,10 @@ class _SettingsTabState extends State<SettingsTab> {
 
     Map user = Provider.of<AppState>(context, listen: true).getUser;
 
+    String name = user['name'] ?? "No Name";
     String avatarText = "";
 
-    for (var element in user['name'].split(" ")) {
+    for (var element in name.split(" ")) {
       avatarText += element[0];
     }
 
@@ -98,7 +99,7 @@ class _SettingsTabState extends State<SettingsTab> {
         ),
         const SizedBox(height: 10),
         Text(
-          user['name'],
+          name,
           style: TextStyle(
             color: Theme.of(context).colorScheme.onBackground,
           ),

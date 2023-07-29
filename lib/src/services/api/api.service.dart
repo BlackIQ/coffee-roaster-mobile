@@ -28,6 +28,21 @@ class DioClient {
     }
   }
 
+  // Register
+  Future<Response> register(dynamic data) async {
+    Response response;
+
+    try {
+      response = await _dio.post('/auth/register', data: data);
+
+      return response;
+    } on DioException catch (e) {
+      response = e.response!;
+
+      return response;
+    }
+  }
+
 // Get Single User
   Future<Response> singleUser(String id, BuildContext context) async {
     Response response;

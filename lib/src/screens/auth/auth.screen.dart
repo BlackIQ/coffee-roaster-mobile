@@ -28,13 +28,15 @@ class _AuthScreenState extends State<AuthScreen> {
   final TextEditingController _email = TextEditingController();
   final TextEditingController _password = TextEditingController();
 
-  Future<void> login() async {
+  bool isLogin = true;
+
+  Future<void> authentication() async {
     Map data = {
       'email': _email.text,
       'password': _password.text,
     };
 
-    var response = _dioClient.login(data);
+    var response = isLogin ? _dioClient.login(data) : _dioClient.register(data);
 
     response.then((result) {
       if (result.statusCode == 200) {
@@ -105,12 +107,21 @@ class _AuthScreenState extends State<AuthScreen> {
               ),
               const SizedBox(height: 20),
               ElevatedButton(
-                onPressed: login,
+                onPressed: authentication,
                 style: ElevatedButton.styleFrom(
                   padding: const EdgeInsets.symmetric(vertical: 16),
                   backgroundColor: Theme.of(context).colorScheme.inversePrimary,
                 ),
-                child: Text(lang.button_login),
+                child: Text(isLogin ? lang.button_login : lang.button_register),
+              ),
+              const SizedBox(height: 10),
+              TextButton(
+                onPressed: () => setState(() {
+                  isLogin = !isLogin;
+                }),
+                child: Text(!isLogin
+                    ? lang.button_change_login
+                    : lang.button_change_register),
               ),
               // const SizedBox(height: 10),
               // TextButton(
