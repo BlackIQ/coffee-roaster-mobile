@@ -1,5 +1,8 @@
 class ConstData {
-  final String _baseUrl = 'http://localhost:8000/api';
+  final bool isProduction = true;
 
-  String get getBaseUrl => _baseUrl;
+  final String _localUrl = 'http://localhost:8000/api';
+  final String _serverUrl = 'https://roaster.amirhossein.info/api';
+
+  String get getBaseUrl => isProduction ? _serverUrl : _localUrl;
 }
