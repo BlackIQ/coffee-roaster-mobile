@@ -77,7 +77,7 @@ class _SettingsTabState extends State<SettingsTab> {
 
     Map user = Provider.of<AppState>(context, listen: true).getUser;
 
-    String name = user['name'] ?? "No Name";
+    String name = user['name'];
     String avatarText = "";
 
     for (var element in name.split(" ")) {

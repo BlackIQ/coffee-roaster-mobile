@@ -106,7 +106,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
     Map user = Provider.of<AppState>(context, listen: true).getUser;
 
     final TextEditingController name = TextEditingController(
-      text: user['name'] ?? "No name",
+      text: user['name'],
     );
     final TextEditingController email = TextEditingController(
       text: user['email'],
