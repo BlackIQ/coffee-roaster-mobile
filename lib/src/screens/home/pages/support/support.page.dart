@@ -83,37 +83,42 @@ class _SupportPageState extends State<SupportPage> {
         ],
       ),
       body: !loading
-          ? ListView.separated(
-              itemBuilder: (context, index) {
-                return ListTile(
-                  title: Text(tickets[index]['title']),
-                  subtitle: Text(
-                    '${tickets[index]['body'].toString().substring(0, 3)}.......',
-                  ),
-                  onTap: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => SingleSupportPage(
-                        id: tickets[index]['_id'].toString(),
+          ? tickets.isNotEmpty
+              ? ListView.separated(
+                  itemBuilder: (context, index) {
+                    return ListTile(
+                      title: Text(tickets[index]['title']),
+                      subtitle: Text(
+                        '${tickets[index]['body'].toString().substring(0, 3)}.......',
                       ),
-                    ),
-                  ),
-                  trailing: tickets[index]['status'] == 0
-                      ? Icon(
-                          Icons.done,
-                          color: Theme.of(context).colorScheme.primary,
-                        )
-                      : Icon(
-                          Icons.done_all,
-                          color: Colors.green[800],
+                      onTap: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => SingleSupportPage(
+                            id: tickets[index]['_id'].toString(),
+                          ),
                         ),
-                );
-              },
-              separatorBuilder: (context, index) {
-                return Divider(color: Theme.of(context).colorScheme.primary);
-              },
-              itemCount: tickets.length,
-            )
+                      ),
+                      trailing: tickets[index]['status'] == 0
+                          ? Icon(
+                              Icons.done,
+                              color: Theme.of(context).colorScheme.primary,
+                            )
+                          : Icon(
+                              Icons.done_all,
+                              color: Colors.green[800],
+                            ),
+                    );
+                  },
+                  separatorBuilder: (context, index) {
+                    return Divider(
+                        color: Theme.of(context).colorScheme.primary);
+                  },
+                  itemCount: tickets.length,
+                )
+              : const Center(
+                  child: Text("No ticket"),
+                )
           : Center(
               child: Platform.isIOS
                   ? const CupertinoActivityIndicator()
