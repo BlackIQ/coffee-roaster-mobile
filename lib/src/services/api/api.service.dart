@@ -117,7 +117,7 @@ class DioClient {
     _dio.options.headers["Authorization"] = 'Bearer $token';
 
     try {
-      response = await _dio.get('/support/for/$id');
+      response = await _dio.get('/support?user=$id');
 
       return response;
     } on DioException catch (e) {
