@@ -169,5 +169,6 @@
   "page_settings_profile_pass_updated": "Password updated",
   "page_settings_profile_pass_conflict_current": "Current password is not matched",
   "page_settings_profile_pass_conflict_new": "New password and confirm password is not matched",
-  "page_settings_profile_user_updated": "User updated"
+  "page_settings_profile_user_updated": "User updated",
+  "no_tickets_yet": "No tickets yet"
 }

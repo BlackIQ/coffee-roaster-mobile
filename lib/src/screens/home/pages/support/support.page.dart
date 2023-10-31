@@ -116,8 +116,8 @@ class _SupportPageState extends State<SupportPage> {
                   },
                   itemCount: tickets.length,
                 )
-              : const Center(
-                  child: Text("No ticket"),
+              : Center(
+                  child: Text(lang.no_tickets_yet),
                 )
           : Center(
               child: Platform.isIOS

@@ -29,8 +29,13 @@ class _AuthScreenState extends State<AuthScreen> {
   final TextEditingController _password = TextEditingController();
 
   bool isLogin = true;
+  bool loading = false;
 
   Future<void> authentication() async {
+    setState(() {
+      loading = true;
+    });
+
     Map data = {
       'email': _email.text,
       'password': _password.text,
@@ -49,6 +54,10 @@ class _AuthScreenState extends State<AuthScreen> {
         _showSnackBar(context, result.data["message"].toString());
       }
     }).catchError((error) {});
+
+    setState(() {
+      loading = false;
+    });
   }
 
   @override
@@ -107,7 +116,7 @@ class _AuthScreenState extends State<AuthScreen> {
               ),
               const SizedBox(height: 20),
               ElevatedButton(
-                onPressed: authentication,
+                onPressed: loading ? null : authentication,
                 style: ElevatedButton.styleFrom(
                   padding: const EdgeInsets.symmetric(vertical: 16),
                   backgroundColor: Theme.of(context).colorScheme.inversePrimary,
@@ -116,9 +125,11 @@ class _AuthScreenState extends State<AuthScreen> {
               ),
               const SizedBox(height: 10),
               TextButton(
-                onPressed: () => setState(() {
-                  isLogin = !isLogin;
-                }),
+                onPressed: loading
+                    ? null
+                    : () => setState(() {
+                          isLogin = !isLogin;
+                        }),
                 child: Text(!isLogin
                     ? lang.button_change_login
                     : lang.button_change_register),

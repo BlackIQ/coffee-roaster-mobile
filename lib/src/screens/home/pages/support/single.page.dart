@@ -122,7 +122,7 @@ class _SingleSupportPageState extends State<SingleSupportPage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(!loading ? ticket['title'] : lang!.loading),
+        title: Text(!loading ? ticket['title'] ?? "Loading" : lang!.loading),
         elevation: 1,
       ),
       body: !loading
@@ -142,7 +142,7 @@ class _SingleSupportPageState extends State<SingleSupportPage> {
                   ),
                   const SizedBox(height: 5),
                   Text(
-                    parseMongoDbTimestamp(ticket['createdAt']),
+                    parseMongoDbTimestamp(ticket['createdAt'] ?? ""),
                     style: TextStyle(
                       color: Theme.of(context).colorScheme.primary,
                       fontSize: 13,
@@ -150,7 +150,7 @@ class _SingleSupportPageState extends State<SingleSupportPage> {
                   ),
                   Divider(color: Theme.of(context).colorScheme.primary),
                   ChatContainer(
-                    text: ticket['body'],
+                    text: ticket['body'] ?? "",
                     side: "right",
                     fgcolor: Theme.of(context).colorScheme.onPrimary,
                     bgcolor: Theme.of(context).colorScheme.primary,
@@ -158,7 +158,7 @@ class _SingleSupportPageState extends State<SingleSupportPage> {
                   const SizedBox(height: 10),
                   ticket['status'] == 2
                       ? ChatContainer(
-                          text: ticket['answer'],
+                          text: ticket['answer'] ?? "Loading",
                           side: "left",
                           fgcolor:
                               Theme.of(context).colorScheme.onPrimaryContainer,
@@ -220,7 +220,7 @@ class _SingleSupportPageState extends State<SingleSupportPage> {
                             )
                           : Container()
                       : Container(),
-                  const SizedBox(height: 20),
+                  const SizedBox(height: 5),
                 ],
               ),
             )

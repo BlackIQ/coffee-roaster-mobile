@@ -169,5 +169,6 @@
   "page_settings_profile_pass_updated": "رمز با موفقیت تغییر کرد",
   "page_settings_profile_pass_conflict_current": "رمز فعلی با رمز وارد شده مقایرت دارد",
   "page_settings_profile_pass_conflict_new": "رمز جدید با تایید رمز مقایرت دارد",
-  "page_settings_profile_user_updated": "اطلاعات با موفقیت تغییر کرد"
+  "page_settings_profile_user_updated": "اطلاعات با موفقیت تغییر کرد",
+  "no_tickets_yet": "تا کنون درخواستی ثبت نشده است"
 }

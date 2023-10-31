@@ -32,13 +32,17 @@ class _CreateSupportPageState extends State<CreateSupportPage> {
     super.initState();
   }
 
-  bool loading = true;
+  bool loading = false;
   List tickets = [];
 
   final TextEditingController _title = TextEditingController();
   final TextEditingController _body = TextEditingController();
 
   Future<void> createTicket() async {
+    setState(() {
+      loading = true;
+    });
+
     String id = Provider.of<AppState>(context, listen: false).getUser['_id'];
 
     final lang = AppLocalizations.of(context);
@@ -109,7 +113,7 @@ class _CreateSupportPageState extends State<CreateSupportPage> {
             ),
             const SizedBox(height: 10),
             ElevatedButton(
-              onPressed: createTicket,
+              onPressed: loading ? null : createTicket,
               style: ElevatedButton.styleFrom(
                 padding: const EdgeInsets.symmetric(vertical: 16),
                 backgroundColor: Theme.of(context).colorScheme.primaryContainer,
