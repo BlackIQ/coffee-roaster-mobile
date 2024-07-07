@@ -188,6 +188,14 @@ class _RoasterTabState extends State<RoasterTab> {
               };
 
               // Map<String, int> sendObject = {
+              //   "1": 2,
+              //   "2": 2,
+              //   "3": 2,
+              //   "4": 2,
+              //   "5": 2,
+              // };
+
+              // Map<String, int> sendObject = {
               //   "1": weightTime,
               //   "2": sizeTime,
               //   "3": beanTime,

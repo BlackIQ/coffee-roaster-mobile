@@ -17,6 +17,6 @@ class _LandingState extends State<Landing> {
     bool authenticated =
         Provider.of<AppState>(context, listen: true).getAuthenticated;
 
-    return authenticated ? const HomeScreen() : const AuthScreen();
+    return !authenticated ? const HomeScreen() : const AuthScreen();
   }
 }
